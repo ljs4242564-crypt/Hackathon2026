@@ -1,0 +1,40 @@
+[
+  {
+    "name": "typecheck",
+    "command": "npx tsc --noEmit",
+    "exit": 2,
+    "tail": "npm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\npanic: vfs: failed to get executable path: readlink /proc/self/exe: no such file or directory\n\ngoroutine 1 [running]:\ngithub.com/microsoft/typescript-go/internal/vfs/osvfs.init.func1(...)\n\tgithub.com/microsoft/typescript-go/internal/vfs/osvfs/os.go:63\ngithub.com/microsoft/typescript-go/internal/vfs/osvfs.init()\n\tgithub.com/microsoft/typescript-go/internal/vfs/osvfs/os.go:75 +0x359\n"
+  },
+  {
+    "name": "audit",
+    "command": "npm audit --omit=dev",
+    "exit": 0,
+    "tail": "found 0 vulnerabilities\nnpm warn Unknown env config \"http-proxy\". This will stop working in the next major version of npm.\n"
+  },
+  {
+    "name": "live",
+    "command": "npm run test:live",
+    "exit": 1,
+    "tail": "rceId: 'academic-calendar',\n  durationMs: 6003,\n  parserResultCount: 0,\n  errorCode: 'UNKNOWN'\n}\n\nstderr | tests/live/officialSources.live.test.ts > official SCNU live source availability > \ud559\uc0ac\uc77c\uc815 \uacf5\uc2dd \uc6d0\ubb38\uc5d0\uc11c 2026\ub144 2\ud559\uae30 \uc911\uac04\uc2dc\ud5d8\uc744 \ud655\uc778\ud55c\ub2e4\nlive-result {\n  status: 'timeout',\n  elapsedMs: 6006,\n  networkTimeoutMs: 6000,\n  overallTimeoutMs: 15000\n}\n\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 1 \u23af\u23af\u23af\u23af\u23af\u23af\u23af\n\n FAIL  tests/live/officialSources.live.test.ts > official SCNU live source availability > \ud559\uc0ac\uc77c\uc815 \uacf5\uc2dd \uc6d0\ubb38\uc5d0\uc11c 2026\ub144 2\ud559\uae30 \uc911\uac04\uc2dc\ud5d8\uc744 \ud655\uc778\ud55c\ub2e4\nError: timeout: official calendar availability check failed\n \u276f tests/live/officialSources.live.test.ts:38:13\n     36|       const category = controller.signal.aborted ? 'timeout' : failure\u2026\n     37|       console.error('live-result', { status: category, elapsedMs: Math\u2026\n     38|       throw new Error(`${category}: official calendar availability che\u2026\n       |             ^\n     39|     } finally { clearTimeout(timer) }\n     40|   }, 18000)\n\nCaused by: official fetch timeout\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/1]\u23af\n\n"
+  },
+  {
+    "name": "typecheck-fallback",
+    "command": "npx --yes --package typescript@5.9.3 tsc --noEmit",
+    "exit": 0
+  },
+  {
+    "name": "final-test",
+    "command": "npm test",
+    "exit": 0
+  },
+  {
+    "name": "build",
+    "command": "npm run build",
+    "exit": 0
+  },
+  {
+    "name": "worker",
+    "command": "node scripts/verify-worker.mjs",
+    "exit": 0
+  }
+]

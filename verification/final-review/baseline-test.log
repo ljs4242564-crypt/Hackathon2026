@@ -1,0 +1,14 @@
+
+> webapp@1.1.0 test
+> vitest run
+
+
+ RUN  v5.0.1 /workspace/scratch/83c5b03b8775/work/project
+
+
+ Test Files  15 passed (15)
+      Tests  127 passed (127)
+   Start at  00:53:56
+   Duration  2.93s (tests 59%, transform 23%, import 16%, worker 1%)
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.

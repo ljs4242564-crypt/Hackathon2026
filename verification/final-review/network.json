@@ -1,0 +1,69 @@
+[
+  {
+    "url": "https://www.scnu.ac.kr/haksa/sv/schdulView/schdulCalendarView.do?mi=1416",
+    "status": 200,
+    "contentType": "text/html; charset=UTF-8",
+    "siteUnavailable": false,
+    "excerpt": "\r\n\r\n\r\n\r\n\r\n\r\n<!DOCTYPE html>\r\n<html lang=\"ko\">\r\n\t<head>\r\n\t\t<meta charset=\"utf-8\">\r\n\t\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n\t\t<meta nam"
+  },
+  {
+    "url": "https://www.scnu.ac.kr/SCNU/na/ntt/selectNttInfo.do?nttSn=281317355&mi=8690",
+    "status": 200,
+    "contentType": "text/html; charset=UTF-8",
+    "siteUnavailable": false,
+    "excerpt": "\r\n\r\n\r\n<!DOCTYPE html>\r\n<html lang=\"ko\">\r\n\t<head>\r\n\t\t<meta charset=\"utf-8\">\r\n\t\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n\t\t<meta name=\"vie"
+  },
+  {
+    "url": "https://library.scnu.ac.kr/facility/avaliable-time",
+    "status": 200,
+    "contentType": "text/html; charset=UTF-8",
+    "siteUnavailable": false,
+    "excerpt": "<!doctype html>\n<html lang=\"ko\" dir=\"ltr\" data-critters-container>\n<head>\n  <meta charset=\"utf-8\">\n  <title>국립순천대학교 도서관</title>\n  <base href=\"/\">\n  <m"
+  },
+  {
+    "url": "https://www.scnu.ac.kr/SCNU/na/ntt/selectNttInfo.do?nttSn=281210005&mi=1131",
+    "status": 200,
+    "contentType": "text/html; charset=UTF-8",
+    "siteUnavailable": false,
+    "excerpt": "\r\n\r\n\r\n<!DOCTYPE html>\r\n<html lang=\"ko\">\r\n\t<head>\r\n\t\t<meta charset=\"utf-8\">\r\n\t\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n\t\t<meta name=\"vie"
+  },
+  {
+    "url": "https://www.scnu.ac.kr/SCNU/og/organiz/selectOrganizList.do?menuCode=A&mi=1214&prntDeptCode=2",
+    "status": 200,
+    "contentType": "text/html; charset=UTF-8",
+    "siteUnavailable": false,
+    "excerpt": "\r\n\r\n\r\n<!DOCTYPE html>\r\n<html lang=\"ko\">\r\n\t<head>\r\n\t\t<meta charset=\"utf-8\">\r\n\t\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n\t\t<meta name=\"vie"
+  },
+  {
+    "url": "https://122fe1d3-47d9-4b5c-aab4-077aa08453d2.vip.gensparksite.com/",
+    "status": 200,
+    "contentType": "text/html",
+    "siteUnavailable": true,
+    "excerpt": "<html>\n    <head><title>Site Unavailable</title></head>\n    <body>\n      <center>\n        <h1>Site Unavailable</h1>\n        <p>Unable to access this s"
+  },
+  {
+    "url": "https://122fe1d3-47d9-4b5c-aab4-077aa08453d2.vip.gensparksite.com/api/health",
+    "status": 200,
+    "contentType": "text/html",
+    "siteUnavailable": true,
+    "excerpt": "<html>\n    <head><title>Site Unavailable</title></head>\n    <body>\n      <center>\n        <h1>Site Unavailable</h1>\n        <p>Unable to access this s"
+  },
+  {
+    "url": "https://122fe1d3-47d9-4b5c-aab4-077aa08453d2.vip.gensparksite.com/api/chat",
+    "error": "HTTP Error 405: Not Allowed"
+  },
+  {
+    "url": "https://github.com/ljs4242564-crypt/SCNU_OSS_HACK",
+    "status": 200,
+    "contentType": "text/html; charset=utf-8",
+    "siteUnavailable": false,
+    "excerpt": "\n\n\n\n  \n\n<!DOCTYPE html>\n<html\n  lang=\"en\"\n  \n  data-color-mode=\"auto\" data-light-theme=\"light\" data-dark-theme=\"dark\"\n  data-a11y-animated-images=\"sys"
+  },
+  {
+    "url": "https://gallery.scnuoss.net",
+    "status": 200,
+    "contentType": "text/html",
+    "siteUnavailable": false,
+    "excerpt": "<!DOCTYPE html>\n<html lang=\"ko\" data-theme=\"dark-gray\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-s"
+  }
+]

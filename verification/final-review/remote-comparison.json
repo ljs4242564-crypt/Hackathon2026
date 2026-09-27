@@ -1,0 +1,190 @@
+[
+  {
+    "path": "package-lock.json",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "package.json",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/config/buildMetadata.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/config/domains.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "src/config/keywords.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/config/sources.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "src/data/verifiedSnapshots.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/frontend/App.tsx",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "src/frontend/lib/api.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "src/frontend/main.tsx",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "src/frontend/styles/index.css",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "src/index.tsx",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "src/renderer.tsx",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "src/routes/chat.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "src/routes/health.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/services/answerFormatter.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/services/answerResolver.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/services/boardParser.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "src/services/contentExtractor.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/services/pageFetcher.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/services/questionAnalyzer.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/services/searchService.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/services/snapshotRepository.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/services/topicPolicy.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/shared/api.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/types/pipeline.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "src/utils/domainValidator.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "src/utils/koreanDate.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "src/utils/textNormalizer.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "tests/answerFormatter.test.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "tests/answerResolver.test.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "tests/boardParser.test.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "tests/buildMetadata.test.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "tests/chatRoute.test.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "tests/contentExtractor.test.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "tests/domainValidator.test.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "tests/koreanDate.test.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "tests/live/officialSources.live.test.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "tests/pageFetcher.test.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "tests/questionAnalyzer.test.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "tests/responseBudget.test.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "tests/searchService.test.ts",
+    "zip_vs_remote": "same"
+  },
+  {
+    "path": "tests/securityHeaders.test.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "tests/snapshotRepository.test.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "tests/topicPolicy.integration.test.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "vite.config.ts",
+    "zip_vs_remote": "different-or-missing"
+  },
+  {
+    "path": "wrangler.jsonc",
+    "zip_vs_remote": "same"
+  }
+]

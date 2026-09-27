@@ -1,0 +1,16 @@
+[
+  "README.md",
+  "docs/problem-solving.md",
+  "ecosystem.config.cjs",
+  "scripts/verify-worker.mjs",
+  "src/data/verifiedSnapshots.ts",
+  "src/frontend/App.tsx",
+  "src/services/answerFormatter.ts",
+  "src/services/answerResolver.ts",
+  "src/services/contentExtractor.ts",
+  "src/services/pageFetcher.ts",
+  "src/services/questionAnalyzer.ts",
+  "src/services/snapshotRepository.ts",
+  "src/services/topicPolicy.ts",
+  "tests/topicPolicy.integration.test.ts"
+]

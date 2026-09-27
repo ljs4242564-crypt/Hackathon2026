@@ -1,0 +1,181 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> webapp@1.1.0 test
+> vitest run
+
+
+ RUN  v5.0.1 /workspace/scratch/83c5b03b8775/work/project
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > separates weekend exclusion from weekday evidence on same page
+Official source search completed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  durationMs: 0,
+  parserResultCount: 1
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > separates weekend exclusion from weekday evidence on same page
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > separates weekend exclusion from weekday evidence on same page
+Official document parsing completed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  parserResultCount: 0
+}
+
+ ❯ tests/finalScope.test.ts (15 tests | 1 failed) 74ms
+   ❯ final submission scope regressions (15)
+     × separates weekend exclusion from weekday evidence on same page 5ms
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > academic: successful excluded-only response is unavailable
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'academic-calendar',
+  durationMs: 1,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > academic: successful excluded-only response is unavailable
+Official document parsing completed {
+  requestId: 'untracked',
+  sourceId: 'academic-calendar',
+  durationMs: 1,
+  parserResultCount: 0
+}
+
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > scholarship: successful excluded-only response is unavailable
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'external-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'external-scholarship-notices',
+  durationMs: 1,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > scholarship: successful excluded-only response is unavailable
+Official source search completed {
+  requestId: 'untracked',
+  sourceId: 'external-scholarship-notices',
+  durationMs: 1,
+  parserResultCount: 2
+}
+
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > student: successful excluded-only response is unavailable
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 1,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 1,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > student: successful excluded-only response is unavailable
+Official source search completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 1,
+  parserResultCount: 2
+}
+
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > student: successful excluded-only response is unavailable
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > student: successful excluded-only response is unavailable
+Official document parsing completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  parserResultCount: 0
+}
+
+ ❯ tests/topicPolicy.integration.test.ts (8 tests | 4 failed) 82ms
+   ❯ successful upstream topic selection (8)
+     × academic: successful excluded-only response is unavailable 8ms
+     × scholarship: successful excluded-only response is unavailable 5ms
+     × student: successful excluded-only response is unavailable 5ms
+     × mixed unseparable evidence is rejected by final validation 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/finalScope.test.ts > final submission scope regressions > separates weekend exclusion from weekday evidence on same page
+AssertionError: expected 'not_found' to be 'verified_live' // Object.is equality
+
+Expected: "verified_live"
+Received: "not_found"
+
+ ❯ tests/finalScope.test.ts:45:19
+     43|  it('separates weekend exclusion from weekday evidence on same page',a…
+     44|  const r=await resolveAnswer(analyzeQuestion('도서관 주말 운영시간 말고 평일 운영시간 알…
+     45|  expect(r.status).toBe('verified_live');expect(output(r)).not.toMatch(…
+       |                   ^
+     46|  })
+     47| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  tests/topicPolicy.integration.test.ts > successful upstream topic selection > academic: successful excluded-only response is unavailable
+ FAIL  tests/topicPolicy.integration.test.ts > successful upstream topic selection > scholarship: successful excluded-only response is unavailable
+ FAIL  tests/topicPolicy.integration.test.ts > successful upstream topic selection > student: successful excluded-only response is unavailable
+AssertionError: expected 'not_found' to be 'upstream_unavailable' // Object.is equality
+
+Expected: "upstream_unavailable"
+Received: "not_found"
+
+ ❯ tests/topicPolicy.integration.test.ts:67:27
+     65|       fetcher: fixture(kind, false, []), now: () => now,
+     66|     })
+     67|     expect(result.status).toBe('upstream_unavailable')
+       |                           ^
+     68|     expect(result.sources).toEqual([])
+     69|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  tests/topicPolicy.integration.test.ts > successful upstream topic selection > mixed unseparable evidence is rejected by final validation
+AssertionError: expected 'not_found' to be 'upstream_unavailable' // Object.is equality
+
+Expected: "upstream_unavailable"
+Received: "not_found"
+
+ ❯ tests/topicPolicy.integration.test.ts:95:27
+     93|       snapshotRepository: new StaticSnapshotRepository([]),
+     94|     })
+     95|     expect(result.status).toBe('upstream_unavailable')
+       |                           ^
+     96|   })
+     97| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+
+ Test Files  2 failed | 14 passed (16)
+      Tests  5 failed | 137 passed (142)
+   Start at  00:56:40
+   Duration  2.92s (tests 57%, transform 24%, import 18%, worker 1%)
+

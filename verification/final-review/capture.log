@@ -1,0 +1,241 @@
+Official upstream request completed {
+  requestId: '50acd793-35f7-4169-9f09-3caca68d6d82',
+  sourceId: 'academic-calendar',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official document parsing failed {
+  requestId: '50acd793-35f7-4169-9f09-3caca68d6d82',
+  sourceId: 'academic-calendar',
+  durationMs: 2,
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Live answer pipeline failed {
+  requestId: '50acd793-35f7-4169-9f09-3caca68d6d82',
+  upstreamStatus: 'http_error',
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: '50acd793-35f7-4169-9f09-3caca68d6d82',
+  durationMs: 5,
+  upstreamStatus: 'http_error',
+  cacheHit: true,
+  status: 'verified_snapshot'
+}
+Official upstream request completed {
+  requestId: 'd78be5e6-1db1-4b3c-b751-f626f5e99ff2',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'd78be5e6-1db1-4b3c-b751-f626f5e99ff2',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official source search failed {
+  requestId: 'd78be5e6-1db1-4b3c-b751-f626f5e99ff2',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 1,
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: 'd78be5e6-1db1-4b3c-b751-f626f5e99ff2',
+  durationMs: 3,
+  upstreamStatus: 'http_error',
+  cacheHit: true,
+  status: 'stale'
+}
+Official source search completed {
+  requestId: '3785971c-8c31-4f16-b954-2af4bffb81cb',
+  sourceId: 'library-home',
+  durationMs: 0,
+  parserResultCount: 1
+}
+Official upstream request completed {
+  requestId: '3785971c-8c31-4f16-b954-2af4bffb81cb',
+  sourceId: 'library-home',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official document parsing failed {
+  requestId: '3785971c-8c31-4f16-b954-2af4bffb81cb',
+  sourceId: 'library-home',
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Live answer pipeline failed {
+  requestId: '3785971c-8c31-4f16-b954-2af4bffb81cb',
+  upstreamStatus: 'http_error',
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: '3785971c-8c31-4f16-b954-2af4bffb81cb',
+  durationMs: 1,
+  upstreamStatus: 'http_error',
+  cacheHit: true,
+  status: 'verified_snapshot'
+}
+Official upstream request completed {
+  requestId: 'ee272961-7e1a-4a47-b6fa-abde2c390bc7',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'ee272961-7e1a-4a47-b6fa-abde2c390bc7',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official source search failed {
+  requestId: 'ee272961-7e1a-4a47-b6fa-abde2c390bc7',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: 'ee272961-7e1a-4a47-b6fa-abde2c390bc7',
+  durationMs: 2,
+  upstreamStatus: 'http_error',
+  cacheHit: true,
+  status: 'stale'
+}
+Official source search completed {
+  requestId: '31286924-4e05-4fad-964c-283f3f65657b',
+  sourceId: 'department-directory',
+  durationMs: 1,
+  parserResultCount: 1
+}
+Official upstream request completed {
+  requestId: '31286924-4e05-4fad-964c-283f3f65657b',
+  sourceId: 'department-directory',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official document parsing failed {
+  requestId: '31286924-4e05-4fad-964c-283f3f65657b',
+  sourceId: 'department-directory',
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Live answer pipeline failed {
+  requestId: '31286924-4e05-4fad-964c-283f3f65657b',
+  upstreamStatus: 'http_error',
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: '31286924-4e05-4fad-964c-283f3f65657b',
+  durationMs: 1,
+  upstreamStatus: 'http_error',
+  cacheHit: true,
+  status: 'verified_snapshot'
+}
+Official source search completed {
+  requestId: '204ec74b-a475-495b-89f2-05caf2c2be31',
+  sourceId: 'library-home',
+  durationMs: 0,
+  parserResultCount: 1
+}
+Official upstream request completed {
+  requestId: '204ec74b-a475-495b-89f2-05caf2c2be31',
+  sourceId: 'library-home',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official document parsing failed {
+  requestId: '204ec74b-a475-495b-89f2-05caf2c2be31',
+  sourceId: 'library-home',
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Live answer pipeline failed {
+  requestId: '204ec74b-a475-495b-89f2-05caf2c2be31',
+  upstreamStatus: 'http_error',
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: '204ec74b-a475-495b-89f2-05caf2c2be31',
+  durationMs: 1,
+  upstreamStatus: 'http_error',
+  cacheHit: false,
+  status: 'upstream_unavailable'
+}
+Official source search completed {
+  requestId: 'eb3e4610-65d7-4c04-bba2-a210923f6f98',
+  sourceId: 'library-home',
+  durationMs: 0,
+  parserResultCount: 1
+}
+Official upstream request completed {
+  requestId: 'eb3e4610-65d7-4c04-bba2-a210923f6f98',
+  sourceId: 'library-home',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official document parsing failed {
+  requestId: 'eb3e4610-65d7-4c04-bba2-a210923f6f98',
+  sourceId: 'library-home',
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Live answer pipeline failed {
+  requestId: 'eb3e4610-65d7-4c04-bba2-a210923f6f98',
+  upstreamStatus: 'http_error',
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: 'eb3e4610-65d7-4c04-bba2-a210923f6f98',
+  durationMs: 1,
+  upstreamStatus: 'http_error',
+  cacheHit: false,
+  status: 'upstream_unavailable'
+}
+Official upstream request completed {
+  requestId: '67803f9b-b990-4338-a3d5-506ffe748eb1',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 1,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: '67803f9b-b990-4338-a3d5-506ffe748eb1',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official source search failed {
+  requestId: '67803f9b-b990-4338-a3d5-506ffe748eb1',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 1,
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: '67803f9b-b990-4338-a3d5-506ffe748eb1',
+  durationMs: 1,
+  upstreamStatus: 'http_error',
+  cacheHit: false,
+  status: 'upstream_unavailable'
+}
+Chat request resolved {
+  requestId: '5f043a61-5188-45c4-afe2-b4045696edef',
+  durationMs: 1,
+  upstreamStatus: 'skipped',
+  cacheHit: false,
+  status: 'not_found'
+}

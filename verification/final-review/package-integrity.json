@@ -1,0 +1,7 @@
+{
+  "crc": "passed",
+  "requiredFiles": "passed",
+  "sourceManifest": "source-manifest.json",
+  "dist": "omitted; npm ci && npm run build",
+  "remoteDeploymentCorrespondence": "pending; no commit/push/deployment performed"
+}

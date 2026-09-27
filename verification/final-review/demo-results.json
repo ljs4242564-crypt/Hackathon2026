@@ -1,0 +1,381 @@
+{
+  "environment": "local Node; not Cloudflare deployment",
+  "health": {
+    "status": "ok",
+    "service": "SCNU Campus Assistant API",
+    "appVersion": "1.1.0",
+    "releaseId": "local-development",
+    "commitSha": "local-development",
+    "builtAt": "2026-09-27T06:00:49.081Z",
+    "timestamp": "2026-09-27T06:01:05.842Z"
+  },
+  "rows": [
+    {
+      "question": "이번 학기 중간고사 언제야?",
+      "environment": "Node Worker direct call; upstream 502 fixture",
+      "http": 200,
+      "contentType": "application/json",
+      "status": "verified_snapshot",
+      "answer": {
+        "title": "2026학년도 제2학기 중간시험",
+        "content": "공식 사이트를 실시간 확인하지 못해 사전에 검증한 자료를 표시합니다. 국립순천대학교 학사일정에서 제2학기 중간시험은 2026년 10월 19일부터 10월 23일까지로 확인되었습니다.",
+        "fields": [
+          {
+            "label": "기간",
+            "value": "2026.10.19 ~ 2026.10.23"
+          },
+          {
+            "label": "담당",
+            "value": "교무학사과 학사지원팀"
+          },
+          {
+            "label": "확인 방식",
+            "value": "사전 검증 자료"
+          },
+          {
+            "label": "마지막 확인일",
+            "value": "2026.09.26"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "국립순천대학교 학사일정",
+          "department": "교무학사과 학사지원팀",
+          "url": "https://www.scnu.ac.kr/haksa/sv/schdulView/schdulCalendarView.do?mi=1416",
+          "publishedAt": null,
+          "checkedAt": "2026-09-26"
+        }
+      ],
+      "meta": {
+        "requestId": "50acd793-35f7-4169-9f09-3caca68d6d82",
+        "processedAt": "2026-09-27T06:01:05.820Z",
+        "answerMode": "snapshot",
+        "durationMs": 5,
+        "upstreamStatus": "http_error",
+        "cacheHit": true,
+        "lastSuccessfulCheck": "2026-09-26"
+      }
+    },
+    {
+      "question": "국가장학금 신청 기간 알려줘.",
+      "environment": "Node Worker direct call; upstream 502 fixture",
+      "http": 200,
+      "contentType": "application/json",
+      "status": "stale",
+      "answer": {
+        "title": "2026학년도 2학기 국가장학금 2차 신청 안내",
+        "content": "공식 사이트를 실시간 확인하지 못해 만료된 마지막 검증본을 표시합니다. 최신 정보는 출처에서 다시 확인하세요. 2차 신청 기간은 2026년 8월 12일 09:00부터 9월 9일 18:00까지였습니다. 현재는 안내된 신청 기간이 지났으므로 새 공지를 확인해야 합니다.",
+        "fields": [
+          {
+            "label": "신청기간",
+            "value": "2026.08.12 09:00 ~ 2026.09.09 18:00"
+          },
+          {
+            "label": "담당",
+            "value": "학생지원과"
+          },
+          {
+            "label": "확인 방식",
+            "value": "오래된 마지막 검증본"
+          },
+          {
+            "label": "마지막 확인일",
+            "value": "2026.09.26"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "2026학년도 2학기 국가장학금 2차 신청 안내",
+          "department": "학생지원과",
+          "url": "https://www.scnu.ac.kr/SCNU/na/ntt/selectNttInfo.do?nttSn=281317355&mi=8690",
+          "publishedAt": null,
+          "checkedAt": "2026-09-26"
+        }
+      ],
+      "meta": {
+        "requestId": "d78be5e6-1db1-4b3c-b751-f626f5e99ff2",
+        "processedAt": "2026-09-27T06:01:05.826Z",
+        "answerMode": "snapshot",
+        "durationMs": 3,
+        "upstreamStatus": "http_error",
+        "cacheHit": true,
+        "lastSuccessfulCheck": "2026-09-26"
+      }
+    },
+    {
+      "question": "도서관은 주말에도 운영해?",
+      "environment": "Node Worker direct call; upstream 502 fixture",
+      "http": 200,
+      "contentType": "application/json",
+      "status": "verified_snapshot",
+      "answer": {
+        "title": "국립순천대학교 도서관 주말 시설 이용시간",
+        "content": "공식 사이트를 실시간 확인하지 못해 사전에 검증한 자료를 표시합니다. 주말에는 일부 시설만 운영합니다. 자료관은 주말 및 법정공휴일에 휴관하고, 학습관 1층·3층 일부 시설도 주말에 휴관합니다. 학습관 2층 201·202 열람실과 We 라운지, 학습관 4층 401·402 열람실과 개인캐럴은 06:00~24:00 연중무휴로 안내되어 있습니다.",
+        "fields": [
+          {
+            "label": "주말 운영",
+            "value": "일부 시설만 운영"
+          },
+          {
+            "label": "학습관 2층",
+            "value": "201·202 열람실·We 라운지 06:00 ~ 24:00 · 연중무휴"
+          },
+          {
+            "label": "학습관 4층",
+            "value": "401·402 열람실·개인캐럴 06:00 ~ 24:00 · 연중무휴"
+          },
+          {
+            "label": "주말 휴관",
+            "value": "자료관 및 학습관 1층·3층 일부 시설"
+          },
+          {
+            "label": "확인 방식",
+            "value": "사전 검증 자료"
+          },
+          {
+            "label": "마지막 확인일",
+            "value": "2026.09.26"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "국립순천대학교 도서관 이용시간",
+          "department": "국립순천대학교 도서관",
+          "url": "https://library.scnu.ac.kr/facility/avaliable-time",
+          "publishedAt": null,
+          "checkedAt": "2026-09-26"
+        }
+      ],
+      "meta": {
+        "requestId": "3785971c-8c31-4f16-b954-2af4bffb81cb",
+        "processedAt": "2026-09-27T06:01:05.830Z",
+        "answerMode": "snapshot",
+        "durationMs": 1,
+        "upstreamStatus": "http_error",
+        "cacheHit": true,
+        "lastSuccessfulCheck": "2026-09-26"
+      }
+    },
+    {
+      "question": "학생증 재발급 방법 알려줘.",
+      "environment": "Node Worker direct call; upstream 502 fixture",
+      "http": 200,
+      "contentType": "application/json",
+      "status": "stale",
+      "answer": {
+        "title": "학생증 재발급 마지막 확인 자료",
+        "content": "공식 사이트를 실시간 확인하지 못해 만료된 마지막 검증본을 표시합니다. 최신 정보는 출처에서 다시 확인하세요. 공식 학생증 안내에는 일반 학생증 재발급 수수료 3천 원, 교통카드·현금입출납 기능이 있는 IC 학생증은 카드 구입 수수료 5천 원으로 구분되어 있습니다. 이 snapshot의 기준 안내는 오래되었으므로 방문 전 학생지원과에 최신 절차와 비용을 다시 확인하세요.",
+        "fields": [
+          {
+            "label": "일반 학생증 재발급",
+            "value": "3,000원"
+          },
+          {
+            "label": "IC 학생증 카드 구입",
+            "value": "5,000원"
+          },
+          {
+            "label": "최신 절차 확인",
+            "value": "학생지원과 061-750-3062"
+          },
+          {
+            "label": "확인 방식",
+            "value": "오래된 마지막 검증본"
+          },
+          {
+            "label": "마지막 확인일",
+            "value": "2024.03.08"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "2024학년도 학부·대학원 신입생 및 편입생 학생증 발급 안내",
+          "department": "학생지원과",
+          "url": "https://www.scnu.ac.kr/SCNU/na/ntt/selectNttInfo.do?nttSn=281210005&mi=1131",
+          "publishedAt": null,
+          "checkedAt": "2024-03-08"
+        }
+      ],
+      "meta": {
+        "requestId": "ee272961-7e1a-4a47-b6fa-abde2c390bc7",
+        "processedAt": "2026-09-27T06:01:05.832Z",
+        "answerMode": "snapshot",
+        "durationMs": 2,
+        "upstreamStatus": "http_error",
+        "cacheHit": true,
+        "lastSuccessfulCheck": "2024-03-08"
+      }
+    },
+    {
+      "question": "학사 관련 문의 전화번호 알려줘.",
+      "environment": "Node Worker direct call; upstream 502 fixture",
+      "http": 200,
+      "contentType": "application/json",
+      "status": "verified_snapshot",
+      "answer": {
+        "title": "교무학사과 업무별 학사 문의 연락처",
+        "content": "공식 사이트를 실시간 확인하지 못해 사전에 검증한 자료를 표시합니다. 학사 문의는 업무별 담당 번호가 다릅니다. 수강신청·수업·시험은 061-750-3032, 학적·등록·휴학·복학·전과는 061-750-3033, 졸업·다전공·재입학은 061-750-3035, 성적·계절학기·전자출결은 061-750-3036으로 안내되어 있습니다.",
+        "fields": [
+          {
+            "label": "수강신청·수업·시험",
+            "value": "061-750-3032"
+          },
+          {
+            "label": "학적·등록·휴학·복학·전과",
+            "value": "061-750-3033"
+          },
+          {
+            "label": "졸업·다전공·재입학",
+            "value": "061-750-3035"
+          },
+          {
+            "label": "성적·계절학기·전자출결",
+            "value": "061-750-3036"
+          },
+          {
+            "label": "확인 방식",
+            "value": "사전 검증 자료"
+          },
+          {
+            "label": "마지막 확인일",
+            "value": "2026.09.26"
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "국립순천대학교 조직도 - 교무처",
+          "department": "교무학사과(학사)",
+          "url": "https://www.scnu.ac.kr/SCNU/og/organiz/selectOrganizList.do?menuCode=A&mi=1214&prntDeptCode=2",
+          "publishedAt": null,
+          "checkedAt": "2026-09-26"
+        }
+      ],
+      "meta": {
+        "requestId": "31286924-4e05-4fad-964c-283f3f65657b",
+        "processedAt": "2026-09-27T06:01:05.835Z",
+        "answerMode": "snapshot",
+        "durationMs": 1,
+        "upstreamStatus": "http_error",
+        "cacheHit": true,
+        "lastSuccessfulCheck": "2026-09-26"
+      }
+    },
+    {
+      "question": "도서관 평일 운영시간 알려줘",
+      "environment": "Node Worker direct call; upstream 502 fixture",
+      "http": 200,
+      "contentType": "application/json",
+      "status": "upstream_unavailable",
+      "answer": {
+        "title": "공식 출처를 현재 확인할 수 없습니다",
+        "content": "국립순천대학교 공식 사이트에 연결하지 못했고 사전에 검증한 대체 자료도 없습니다. 확인되지 않은 내용은 추측하지 않습니다.",
+        "fields": [
+          {
+            "label": "확인 상태",
+            "value": "공식 출처와 대체 자료 모두 확인 실패"
+          }
+        ]
+      },
+      "sources": [],
+      "meta": {
+        "requestId": "204ec74b-a475-495b-89f2-05caf2c2be31",
+        "processedAt": "2026-09-27T06:01:05.837Z",
+        "answerMode": "unavailable",
+        "durationMs": 1,
+        "upstreamStatus": "http_error",
+        "cacheHit": false,
+        "lastSuccessfulCheck": null
+      }
+    },
+    {
+      "question": "도서관 주말 운영시간 말고 평일 운영시간 알려줘",
+      "environment": "Node Worker direct call; upstream 502 fixture",
+      "http": 200,
+      "contentType": "application/json",
+      "status": "upstream_unavailable",
+      "answer": {
+        "title": "공식 출처를 현재 확인할 수 없습니다",
+        "content": "국립순천대학교 공식 사이트에 연결하지 못했고 사전에 검증한 대체 자료도 없습니다. 확인되지 않은 내용은 추측하지 않습니다.",
+        "fields": [
+          {
+            "label": "확인 상태",
+            "value": "공식 출처와 대체 자료 모두 확인 실패"
+          }
+        ]
+      },
+      "sources": [],
+      "meta": {
+        "requestId": "eb3e4610-65d7-4c04-bba2-a210923f6f98",
+        "processedAt": "2026-09-27T06:01:05.838Z",
+        "answerMode": "unavailable",
+        "durationMs": 1,
+        "upstreamStatus": "http_error",
+        "cacheHit": false,
+        "lastSuccessfulCheck": null
+      }
+    },
+    {
+      "question": "2026학년도 2학기 국가장학금 1차 신청 기간 알려줘",
+      "environment": "Node Worker direct call; upstream 502 fixture",
+      "http": 200,
+      "contentType": "application/json",
+      "status": "upstream_unavailable",
+      "answer": {
+        "title": "공식 출처를 현재 확인할 수 없습니다",
+        "content": "국립순천대학교 공식 사이트에 연결하지 못했고 사전에 검증한 대체 자료도 없습니다. 확인되지 않은 내용은 추측하지 않습니다.",
+        "fields": [
+          {
+            "label": "확인 상태",
+            "value": "공식 출처와 대체 자료 모두 확인 실패"
+          }
+        ]
+      },
+      "sources": [],
+      "meta": {
+        "requestId": "67803f9b-b990-4338-a3d5-506ffe748eb1",
+        "processedAt": "2026-09-27T06:01:05.840Z",
+        "answerMode": "unavailable",
+        "durationMs": 1,
+        "upstreamStatus": "http_error",
+        "cacheHit": false,
+        "lastSuccessfulCheck": null
+      }
+    },
+    {
+      "question": "국가장학금과 주거안정장학금 신청 기간",
+      "environment": "Node Worker direct call; upstream 502 fixture",
+      "http": 200,
+      "contentType": "application/json",
+      "status": "not_found",
+      "answer": {
+        "title": "질문을 한 분야로 좁혀주세요",
+        "content": "다른 표현으로 다시 검색하거나 관련 부서에 문의해 주세요. 확인되지 않은 정보는 추측해서 제공하지 않습니다.",
+        "fields": [
+          {
+            "label": "확인 상태",
+            "value": "공식 원문에서 답변 근거를 찾지 못함"
+          },
+          {
+            "label": "검색 후보",
+            "value": "0건"
+          }
+        ]
+      },
+      "sources": [],
+      "meta": {
+        "requestId": "5f043a61-5188-45c4-afe2-b4045696edef",
+        "processedAt": "2026-09-27T06:01:05.841Z",
+        "answerMode": "unavailable",
+        "durationMs": 1,
+        "upstreamStatus": "skipped",
+        "cacheHit": false,
+        "lastSuccessfulCheck": null
+      }
+    }
+  ]
+}

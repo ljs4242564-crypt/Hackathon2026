@@ -1,0 +1,15 @@
+{
+  "secretScan": "No matches for known private-key/token patterns; not a proof that every possible secret is absent. Included text contents inspected by scanner.",
+  "flaggedFiles": [],
+  "codeTrailingWhitespace": [],
+  "excluded": [
+    "node_modules",
+    ".git",
+    ".wrangler",
+    ".cache",
+    "dist",
+    ".env*",
+    ".dev.vars*"
+  ],
+  "sourceFiles": 129
+}

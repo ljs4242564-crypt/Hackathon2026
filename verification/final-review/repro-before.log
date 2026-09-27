@@ -1,0 +1,321 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v5.0.1 /workspace/scratch/83c5b03b8775/work/project
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > S1 rejects wrong snapshot
+Official source search completed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  durationMs: 0,
+  parserResultCount: 1
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > S1 rejects wrong snapshot
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  durationMs: 1,
+  httpStatus: 502,
+  redirectCount: 0
+}
+
+stderr | tests/finalScope.test.ts > final submission scope regressions > S1 rejects wrong snapshot
+Official document parsing failed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+
+stderr | tests/finalScope.test.ts > final submission scope regressions > S1 rejects wrong snapshot
+Live answer pipeline failed {
+  requestId: 'untracked',
+  upstreamStatus: 'http_error',
+  errorCode: 'Error'
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > S2 rejects wrong snapshot
+Official source search completed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  durationMs: 0,
+  parserResultCount: 1
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > S2 rejects wrong snapshot
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+
+stderr | tests/finalScope.test.ts > final submission scope regressions > S2 rejects wrong snapshot
+Official document parsing failed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+
+stderr | tests/finalScope.test.ts > final submission scope regressions > S2 rejects wrong snapshot
+Live answer pipeline failed {
+  requestId: 'untracked',
+  upstreamStatus: 'http_error',
+  errorCode: 'Error'
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > S3 rejects wrong snapshot
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+
+stderr | tests/finalScope.test.ts > final submission scope regressions > S3 rejects wrong snapshot
+Official source search failed {
+  requestId: 'untracked',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 1,
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > S4 rejects wrong snapshot
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+
+stderr | tests/finalScope.test.ts > final submission scope regressions > S4 rejects wrong snapshot
+Official source search failed {
+  requestId: 'untracked',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 1,
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > L1 rejects wrong HTTP 200 evidence
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 1,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > L1 rejects wrong HTTP 200 evidence
+Official source search completed {
+  requestId: 'untracked',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 7,
+  parserResultCount: 2
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > L1 rejects wrong HTTP 200 evidence
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > L1 rejects wrong HTTP 200 evidence
+Official document parsing completed {
+  requestId: 'untracked',
+  sourceId: 'national-scholarship-notices',
+  parserResultCount: 1
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > L2 rejects wrong HTTP 200 evidence
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > L2 rejects wrong HTTP 200 evidence
+Official source search completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 1,
+  parserResultCount: 2
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > L2 rejects wrong HTTP 200 evidence
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > L2 rejects wrong HTTP 200 evidence
+Official document parsing completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  parserResultCount: 1
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > L3 rejects wrong HTTP 200 evidence
+Official source search completed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  durationMs: 0,
+  parserResultCount: 1
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > L3 rejects wrong HTTP 200 evidence
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > L3 rejects wrong HTTP 200 evidence
+Official document parsing completed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  parserResultCount: 1
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > separates weekend exclusion from weekday evidence on same page
+Official source search completed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  durationMs: 0,
+  parserResultCount: 1
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > separates weekend exclusion from weekday evidence on same page
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/finalScope.test.ts > final submission scope regressions > separates weekend exclusion from weekday evidence on same page
+Official document parsing completed {
+  requestId: 'untracked',
+  sourceId: 'library-home',
+  parserResultCount: 0
+}
+
+stderr | tests/finalScope.test.ts > final submission scope regressions > separates weekend exclusion from weekday evidence on same page
+Live answer pipeline failed {
+  requestId: 'untracked',
+  upstreamStatus: 'parse_error',
+  errorCode: 'Error'
+}
+
+ ❯ tests/finalScope.test.ts (15 tests | 8 failed) 52ms
+   ❯ final submission scope regressions (15)
+     × S1 rejects wrong snapshot 12ms
+     × S2 rejects wrong snapshot 3ms
+     × S3 rejects wrong snapshot 3ms
+     × S4 rejects wrong snapshot 2ms
+     × L1 rejects wrong HTTP 200 evidence 10ms
+     × L2 rejects wrong HTTP 200 evidence 3ms
+     × L3 rejects wrong HTTP 200 evidence 2ms
+     × separates weekend exclusion from weekday evidence on same page 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/finalScope.test.ts > final submission scope regressions > S1 rejects wrong snapshot
+ FAIL  tests/finalScope.test.ts > final submission scope regressions > S2 rejects wrong snapshot
+ FAIL  tests/finalScope.test.ts > final submission scope regressions > S3 rejects wrong snapshot
+ FAIL  tests/finalScope.test.ts > final submission scope regressions > S4 rejects wrong snapshot
+AssertionError: expected 'snapshot' to be 'unavailable' // Object.is equality
+
+Expected: "unavailable"
+Received: "snapshot"
+
+ ❯ tests/finalScope.test.ts:20:23
+     18|  ])('%s rejects wrong snapshot',async (_id,q,bad) => {
+     19|  const r=await resolveAnswer(analyzeQuestion(q,now),{fetcher:async()=>…
+     20|  expect(r.answerMode).toBe('unavailable');expect(r.sources).toEqual([]…
+       |                       ^
+     21|  })
+     22|  it.each([
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  tests/finalScope.test.ts > final submission scope regressions > L1 rejects wrong HTTP 200 evidence
+ FAIL  tests/finalScope.test.ts > final submission scope regressions > L2 rejects wrong HTTP 200 evidence
+ FAIL  tests/finalScope.test.ts > final submission scope regressions > L3 rejects wrong HTTP 200 evidence
+AssertionError: expected 'verified_live' not to be 'verified_live' // Object.is equality
+ ❯ tests/finalScope.test.ts:28:23
+     26|  ])('%s rejects wrong HTTP 200 evidence',async (_id,q,title,body,bad)=…
+     27|  const r=await resolveAnswer(analyzeQuestion(q,now),{fetcher:fixture(t…
+     28|  expect(r.status).not.toBe('verified_live');expect(output(r)).not.toMa…
+       |                       ^
+     29|  if(r.answerMode==='unavailable') expect(r.sources).toEqual([])
+     30|  expect(r.upstreamStatus).toBe('ok')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  tests/finalScope.test.ts > final submission scope regressions > separates weekend exclusion from weekday evidence on same page
+AssertionError: expected 'verified_snapshot' to be 'verified_live' // Object.is equality
+
+Expected: "verified_live"
+Received: "verified_snapshot"
+
+ ❯ tests/finalScope.test.ts:45:19
+     43|  it('separates weekend exclusion from weekday evidence on same page',a…
+     44|  const r=await resolveAnswer(analyzeQuestion('도서관 주말 운영시간 말고 평일 운영시간 알…
+     45|  expect(r.status).toBe('verified_live');expect(output(r)).not.toMatch(…
+       |                   ^
+     46|  })
+     47| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed | 7 passed (15)
+   Start at  00:55:23
+   Duration  344ms (transform 55%, tests 23%, import 20%, worker 2%)
+

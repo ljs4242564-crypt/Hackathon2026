@@ -1,0 +1,17 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> test
+> vitest run
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+
+ RUN  v5.0.1 /workspace/scratch/5faa934df504/genspark-fde23fcc-731d-4c63-96c4-5668c8627003-main
+
+
+ Test Files  10 passed | 1 skipped (11)
+      Tests  92 passed | 2 skipped (94)
+   Start at  18:30:32
+   Duration  563ms (transform 50%, import 26%, tests 21%, worker 3%)
+

@@ -1,0 +1,10 @@
+Before dependency installation:
+npm test: sh: 1: vitest: not found
+npm run build: sh: 1: vite: not found
+Original archive: no .git. git status/rev-parse: fatal: not a git repository.
+Metadata injection built Worker check passed:
+appVersion=1.1.0
+releaseId=phase9-injection-fixture
+commitSha=0123456789abcdef0123456789abcdef01234567
+builtAt=2026-09-26T23:36:46.613Z (unchanged across requests)
+Final normal build restored local-development release/commit metadata.

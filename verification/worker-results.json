@@ -1,0 +1,60 @@
+[
+  {
+    "name": "/: status and security headers",
+    "status": "passed"
+  },
+  {
+    "name": "health metadata",
+    "status": "ok",
+    "service": "SCNU Campus Assistant API",
+    "appVersion": "1.1.0",
+    "releaseId": "local-development",
+    "commitSha": "local-development",
+    "builtAt": "2026-09-27T06:00:49.081Z",
+    "timestamp": "2026-09-27T06:00:49.258Z"
+  },
+  {
+    "name": "/api/health: status and security headers",
+    "status": "passed"
+  },
+  {
+    "name": "502 -> verified snapshot",
+    "status": "passed"
+  },
+  {
+    "name": "excluded topic safe fallback: 이번 학기 중간고사 말고 기말고사",
+    "status": "passed"
+  },
+  {
+    "name": "excluded topic safe fallback: 국가장학금 말고 외부장학금",
+    "status": "passed"
+  },
+  {
+    "name": "excluded topic safe fallback: 학생증 재발급이 아니라 처음 발급",
+    "status": "passed"
+  },
+  {
+    "name": "successful mixed source: 이번 학기 중간고사 말고 기말고사",
+    "status": "passed"
+  },
+  {
+    "name": "successful mixed source: 국가장학금 말고 외부장학금",
+    "status": "passed"
+  },
+  {
+    "name": "successful mixed source: 학생증 재발급이 아니라 처음 발급",
+    "status": "passed"
+  },
+  {
+    "name": "future semester rejects old snapshot: 중간고사 언제야?",
+    "status": "passed"
+  },
+  {
+    "name": "future semester rejects old snapshot: 국가장학금 신청 기간 알려줘",
+    "status": "passed"
+  },
+  {
+    "name": "future semester rejects old snapshot: 2027학년도 1학기 중간고사 언제야?",
+    "status": "passed"
+  }
+]

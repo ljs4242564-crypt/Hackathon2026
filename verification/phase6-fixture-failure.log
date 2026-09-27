@@ -1,0 +1,144 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+
+ RUN  v5.0.1 /workspace/scratch/5faa934df504/genspark-fde23fcc-731d-4c63-96c4-5668c8627003-main
+
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > scholarship: mixed successful responses return only requested evidence
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'external-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'external-scholarship-notices',
+  durationMs: 1,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > scholarship: mixed successful responses return only requested evidence
+Official source search completed {
+  requestId: 'untracked',
+  sourceId: 'external-scholarship-notices',
+  durationMs: 4,
+  parserResultCount: 0
+}
+
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > student: mixed successful responses return only requested evidence
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > student: mixed successful responses return only requested evidence
+Official source search completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 2,
+  parserResultCount: 0
+}
+
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > same-line sentences are selected separately
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+
+stdout | tests/topicPolicy.integration.test.ts > successful upstream topic selection > same-line sentences are selected separately
+Official source search completed {
+  requestId: 'untracked',
+  sourceId: 'general-notices',
+  durationMs: 1,
+  parserResultCount: 0
+}
+
+ ❯ tests/topicPolicy.integration.test.ts (8 tests | 3 failed) 70ms
+   ❯ successful upstream topic selection (8)
+     × scholarship: mixed successful responses return only requested evidence 10ms
+     × student: mixed successful responses return only requested evidence 5ms
+     × same-line sentences are selected separately 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/topicPolicy.integration.test.ts > successful upstream topic selection > scholarship: mixed successful responses return only requested evidence
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/topicPolicy.integration.test.ts:46:78
+     44|     if (kind === 'scholarship') {
+     45|       const search = await searchOfficialSources(analysis, { fetcher })
+     46|       expect(search.candidates.some((item) => item.title.includes('외부장…
+       |                                                                              ^
+     47|       expect(search.candidates.some((item) => item.title.includes('국가장…
+     48|       expect(analysis.excludedKeywords).toEqual(['국가장학금'])
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/topicPolicy.integration.test.ts > successful upstream topic selection > student: mixed successful responses return only requested evidence
+AssertionError: expected 'upstream_unavailable' to be 'verified_live' // Object.is equality
+
+Expected: "verified_live"
+Received: "upstream_unavailable"
+
+ ❯ tests/topicPolicy.integration.test.ts:56:27
+     54|     }
+     55|     const result = await resolveAnswer(analysis, { fetcher, now: () =>…
+     56|     expect(result.status).toBe('verified_live')
+       |                           ^
+     57|     expect(result.content).toContain(positive)
+     58|     expect(JSON.stringify({ title: result.title, content: result.conte…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/topicPolicy.integration.test.ts > successful upstream topic selection > same-line sentences are selected separately
+AssertionError: expected 'upstream_unavailable' to be 'verified_live' // Object.is equality
+
+Expected: "verified_live"
+Received: "upstream_unavailable"
+
+ ❯ tests/topicPolicy.integration.test.ts:78:27
+     76|       now: () => now,
+     77|     })
+     78|     expect(result.status).toBe('verified_live')
+       |                           ^
+     79|     expect(result.content).not.toContain('재발급')
+     80|     expect(result.content).toContain('최초 발급')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed | 6 passed (7)
+      Tests  3 failed | 73 passed (76)
+   Start at  18:32:47
+   Duration  385ms (transform 50%, tests 27%, import 21%, worker 3%)
+

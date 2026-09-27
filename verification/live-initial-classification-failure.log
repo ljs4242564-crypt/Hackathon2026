@@ -1,0 +1,59 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> webapp@1.1.0 test:live
+> RUN_LIVE_TESTS=1 vitest run tests/live
+
+
+ RUN  v5.0.1 /workspace/scratch/5faa934df504/genspark-fde23fcc-731d-4c63-96c4-5668c8627003-main
+
+stderr | tests/live/officialSources.live.test.ts > official SCNU live source availability > 학사일정 공식 원문에서 2026년 2학기 중간시험을 확인한다
+Official upstream request failed {
+  requestId: 'untracked',
+  sourceId: 'academic-calendar',
+  durationMs: 6005,
+  httpStatus: null,
+  redirectCount: 0,
+  errorCode: 'UNKNOWN'
+}
+
+stderr | tests/live/officialSources.live.test.ts > official SCNU live source availability > 학사일정 공식 원문에서 2026년 2학기 중간시험을 확인한다
+Official document parsing failed {
+  requestId: 'untracked',
+  sourceId: 'academic-calendar',
+  durationMs: 6007,
+  parserResultCount: 0,
+  errorCode: 'UNKNOWN'
+}
+
+stderr | tests/live/officialSources.live.test.ts > official SCNU live source availability > 학사일정 공식 원문에서 2026년 2학기 중간시험을 확인한다
+live-result {
+  status: 'network unavailable',
+  elapsedMs: 6010,
+  networkTimeoutMs: 15000
+}
+
+ ❯ tests/live/officialSources.live.test.ts (1 test | 1 failed) 6014ms
+   ❯ official SCNU live source availability (1)
+     × 학사일정 공식 원문에서 2026년 2학기 중간시험을 확인한다 6013ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/live/officialSources.live.test.ts > official SCNU live source availability > 학사일정 공식 원문에서 2026년 2학기 중간시험을 확인한다
+Error: network unavailable: official calendar availability check failed
+ ❯ tests/live/officialSources.live.test.ts:36:13
+     34|       const category = controller.signal.aborted ? 'timeout' : failure…
+     35|       console.error('live-result', { status: category, elapsedMs: Math…
+     36|       throw new Error(`${category}: official calendar availability che…
+       |             ^
+     37|     } finally { clearTimeout(timer) }
+     38|   }, 18000)
+
+Caused by: official fetch timeout
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  18:40:27
+   Duration  6.23s (tests 98%, transform 1%, import 1%)
+

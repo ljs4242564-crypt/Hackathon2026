@@ -1,0 +1,8 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+panic: vfs: failed to get executable path: readlink /proc/self/exe: no such file or directory
+
+goroutine 1 [running]:
+github.com/microsoft/typescript-go/internal/vfs/osvfs.init.func1(...)
+	github.com/microsoft/typescript-go/internal/vfs/osvfs/os.go:63
+github.com/microsoft/typescript-go/internal/vfs/osvfs.init()
+	github.com/microsoft/typescript-go/internal/vfs/osvfs/os.go:75 +0x359

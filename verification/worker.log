@@ -1,0 +1,308 @@
+PASS /: status and security headers {}
+PASS health metadata {
+  status: 'ok',
+  service: 'SCNU Campus Assistant API',
+  appVersion: '1.1.0',
+  releaseId: 'local-development',
+  commitSha: 'local-development',
+  builtAt: '2026-09-26T23:39:29.036Z',
+  timestamp: '2026-09-26T23:40:06.761Z'
+}
+PASS /api/health: status and security headers {}
+Official upstream request completed {
+  requestId: '01bdf02d-4ea1-4f59-a00a-4b98e571ccdc',
+  sourceId: 'academic-calendar',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official document parsing failed {
+  requestId: '01bdf02d-4ea1-4f59-a00a-4b98e571ccdc',
+  sourceId: 'academic-calendar',
+  durationMs: 0,
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Live answer pipeline failed {
+  requestId: '01bdf02d-4ea1-4f59-a00a-4b98e571ccdc',
+  upstreamStatus: 'http_error',
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: '01bdf02d-4ea1-4f59-a00a-4b98e571ccdc',
+  durationMs: 0,
+  upstreamStatus: 'http_error',
+  cacheHit: true,
+  status: 'verified_snapshot'
+}
+PASS 502 -> verified snapshot {}
+Official upstream request completed {
+  requestId: 'f41affab-c94f-4aba-ba49-4e1d1160a335',
+  sourceId: 'academic-calendar',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official document parsing failed {
+  requestId: 'f41affab-c94f-4aba-ba49-4e1d1160a335',
+  sourceId: 'academic-calendar',
+  durationMs: 0,
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Live answer pipeline failed {
+  requestId: 'f41affab-c94f-4aba-ba49-4e1d1160a335',
+  upstreamStatus: 'http_error',
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: 'f41affab-c94f-4aba-ba49-4e1d1160a335',
+  durationMs: 0,
+  upstreamStatus: 'http_error',
+  cacheHit: false,
+  status: 'upstream_unavailable'
+}
+PASS excluded topic safe fallback: 이번 학기 중간고사 말고 기말고사 {}
+Official upstream request completed {
+  requestId: '17f119a7-886a-4a89-b58e-e370ad64afa7',
+  sourceId: 'external-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: '17f119a7-886a-4a89-b58e-e370ad64afa7',
+  sourceId: 'external-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official source search failed {
+  requestId: '17f119a7-886a-4a89-b58e-e370ad64afa7',
+  sourceId: 'external-scholarship-notices',
+  durationMs: 0,
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: '17f119a7-886a-4a89-b58e-e370ad64afa7',
+  durationMs: 0,
+  upstreamStatus: 'http_error',
+  cacheHit: false,
+  status: 'upstream_unavailable'
+}
+PASS excluded topic safe fallback: 국가장학금 말고 외부장학금 {}
+Official upstream request completed {
+  requestId: 'f5ee353a-a0ba-4e28-a19f-2b6209cf4162',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'f5ee353a-a0ba-4e28-a19f-2b6209cf4162',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official source search failed {
+  requestId: 'f5ee353a-a0ba-4e28-a19f-2b6209cf4162',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: 'f5ee353a-a0ba-4e28-a19f-2b6209cf4162',
+  durationMs: 0,
+  upstreamStatus: 'http_error',
+  cacheHit: false,
+  status: 'upstream_unavailable'
+}
+PASS excluded topic safe fallback: 학생증 재발급이 아니라 처음 발급 {}
+Official upstream request completed {
+  requestId: 'c1a87247-2bd4-49e2-95e6-90e25b30699d',
+  sourceId: 'academic-calendar',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official document parsing completed {
+  requestId: 'c1a87247-2bd4-49e2-95e6-90e25b30699d',
+  sourceId: 'academic-calendar',
+  durationMs: 0,
+  parserResultCount: 1
+}
+Chat request resolved {
+  requestId: 'c1a87247-2bd4-49e2-95e6-90e25b30699d',
+  durationMs: 0,
+  upstreamStatus: 'ok',
+  cacheHit: false,
+  status: 'verified_live'
+}
+PASS successful mixed source: 이번 학기 중간고사 말고 기말고사 {}
+Official upstream request completed {
+  requestId: 'cb250bf6-b4cf-422c-b1b4-bb922c7750b9',
+  sourceId: 'external-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'cb250bf6-b4cf-422c-b1b4-bb922c7750b9',
+  sourceId: 'external-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official source search completed {
+  requestId: 'cb250bf6-b4cf-422c-b1b4-bb922c7750b9',
+  sourceId: 'external-scholarship-notices',
+  durationMs: 0,
+  parserResultCount: 4
+}
+Official upstream request completed {
+  requestId: 'cb250bf6-b4cf-422c-b1b4-bb922c7750b9',
+  sourceId: 'external-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official document parsing completed {
+  requestId: 'cb250bf6-b4cf-422c-b1b4-bb922c7750b9',
+  sourceId: 'external-scholarship-notices',
+  parserResultCount: 1
+}
+Chat request resolved {
+  requestId: 'cb250bf6-b4cf-422c-b1b4-bb922c7750b9',
+  durationMs: 0,
+  upstreamStatus: 'ok',
+  cacheHit: false,
+  status: 'verified_live'
+}
+PASS successful mixed source: 국가장학금 말고 외부장학금 {}
+Official upstream request completed {
+  requestId: 'ccde8928-34eb-465d-9069-13e1250efa6d',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: 'ccde8928-34eb-465d-9069-13e1250efa6d',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official source search completed {
+  requestId: 'ccde8928-34eb-465d-9069-13e1250efa6d',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  parserResultCount: 2
+}
+Official upstream request completed {
+  requestId: 'ccde8928-34eb-465d-9069-13e1250efa6d',
+  sourceId: 'general-notices',
+  durationMs: 0,
+  httpStatus: 200,
+  redirectCount: 0
+}
+Official document parsing completed {
+  requestId: 'ccde8928-34eb-465d-9069-13e1250efa6d',
+  sourceId: 'general-notices',
+  parserResultCount: 1
+}
+Chat request resolved {
+  requestId: 'ccde8928-34eb-465d-9069-13e1250efa6d',
+  durationMs: 0,
+  upstreamStatus: 'ok',
+  cacheHit: false,
+  status: 'verified_live'
+}
+PASS successful mixed source: 학생증 재발급이 아니라 처음 발급 {}
+Official upstream request completed {
+  requestId: 'a13f150a-6d64-49f3-984b-dd57d81e6be6',
+  sourceId: 'academic-calendar',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official document parsing failed {
+  requestId: 'a13f150a-6d64-49f3-984b-dd57d81e6be6',
+  sourceId: 'academic-calendar',
+  durationMs: 0,
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Live answer pipeline failed {
+  requestId: 'a13f150a-6d64-49f3-984b-dd57d81e6be6',
+  upstreamStatus: 'http_error',
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: 'a13f150a-6d64-49f3-984b-dd57d81e6be6',
+  durationMs: 0,
+  upstreamStatus: 'http_error',
+  cacheHit: false,
+  status: 'upstream_unavailable'
+}
+PASS future semester rejects old snapshot: 중간고사 언제야? {}
+Official upstream request completed {
+  requestId: '89d88644-d5db-45ab-8238-6c9ba32d7dd5',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official upstream request completed {
+  requestId: '89d88644-d5db-45ab-8238-6c9ba32d7dd5',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official source search failed {
+  requestId: '89d88644-d5db-45ab-8238-6c9ba32d7dd5',
+  sourceId: 'national-scholarship-notices',
+  durationMs: 0,
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: '89d88644-d5db-45ab-8238-6c9ba32d7dd5',
+  durationMs: 0,
+  upstreamStatus: 'http_error',
+  cacheHit: false,
+  status: 'upstream_unavailable'
+}
+PASS future semester rejects old snapshot: 국가장학금 신청 기간 알려줘 {}
+Official upstream request completed {
+  requestId: 'bf288fb2-0d72-476f-bf07-4d64b8a54fc3',
+  sourceId: 'academic-calendar',
+  durationMs: 0,
+  httpStatus: 502,
+  redirectCount: 0
+}
+Official document parsing failed {
+  requestId: 'bf288fb2-0d72-476f-bf07-4d64b8a54fc3',
+  sourceId: 'academic-calendar',
+  durationMs: 0,
+  parserResultCount: 0,
+  errorCode: 'Error'
+}
+Live answer pipeline failed {
+  requestId: 'bf288fb2-0d72-476f-bf07-4d64b8a54fc3',
+  upstreamStatus: 'http_error',
+  errorCode: 'Error'
+}
+Chat request resolved {
+  requestId: 'bf288fb2-0d72-476f-bf07-4d64b8a54fc3',
+  durationMs: 0,
+  upstreamStatus: 'http_error',
+  cacheHit: false,
+  status: 'upstream_unavailable'
+}
+PASS future semester rejects old snapshot: 2027학년도 1학기 중간고사 언제야? {}
+Worker assertions: 13 groups passed

@@ -1,0 +1,28 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> webapp@1.1.0 build
+> vite build --mode client && vite build
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+vite v8.3.0 building client environment for client...
+transforming...
+✓ 1877 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/static/client.css   19.18 kB │ gzip:  5.41 kB
+dist/static/client.js   237.76 kB │ gzip: 75.30 kB
+
+✓ built in 175ms
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mProxy environment variables detected. We'll use your proxy for fetch requests.[0m
+
+
+vite v8.3.0 building ssr environment for production...
+transforming...
+✓ 78 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/_worker.js  118.31 kB │ gzip: 47.85 kB
+
+✓ built in 44ms

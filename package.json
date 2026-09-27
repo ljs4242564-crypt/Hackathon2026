@@ -1,0 +1,36 @@
+{
+  "name": "webapp",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --mode client && vite build",
+    "test": "vitest run",
+    "test:live": "RUN_LIVE_TESTS=1 vitest run tests/live",
+    "preview": "wrangler pages dev dist --ip 0.0.0.0 --port 3000",
+    "deploy": "npm run build && wrangler pages deploy dist",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+  },
+  "dependencies": {
+    "domhandler": "^6.0.1",
+    "hono": "^4.13.8",
+    "htmlparser2": "^12.0.0",
+    "lucide-react": "^1.47.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@hono/vite-build": "^1.11.1",
+    "@hono/vite-dev-server": "^0.26.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.19.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.4",
+    "vitest": "^5.0.1",
+    "wrangler": "^4.110.0"
+  },
+  "version": "1.1.0"
+}

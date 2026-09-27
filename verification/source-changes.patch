@@ -1,0 +1,1351 @@
+diff --git a/docs/phase5-10-report.md b/docs/phase5-10-report.md
+new file mode 100644
+index 0000000..1920367
+--- /dev/null
++++ b/docs/phase5-10-report.md
+@@ -0,0 +1,160 @@
++1. **최종 판정: READY FOR DEPLOYMENT — 로컬 배포 준비 기준**
++
++요청한 완료 판정 체크리스트를 충족했습니다. 실제 Cloudflare 배포 성공이나 공식 서버의 현재 가용성을 보증하는 판정은 아닙니다. 별도 라이브 테스트는 timeout으로 실패했고, Wrangler 프리뷰는 실행 환경 오류로 실패했습니다. 이 두 실패를 통과로 처리하지 않았습니다. Git push, PR 생성 및 배포는 수행하지 않았습니다.
++
++2. **Phase별 완료 여부**
++
++| Phase | 결과 | 근거 |
++|---|---|---|
++| 5 | 완료 | 필수 파일 10종과 excludedKeywords, academicTerm, CF_PAGES_COMMIT_SHA, Asia/Seoul 확인. 업로드 ZIP 기준 |
++| 6 | 완료 | 관련 테스트 76개 통과. 성공 HTTP mock에서 세 질문, 제외 자료만 있는 경우, 혼합 문장, 기존 경계 질문 검증 |
++| 7 | 완료 | 관련 테스트 55개 통과. 직접 저장소·resolver 통합에서 추론/명시 학기 일치 검증 |
++| 8 | 완료 | 관련 테스트 38개 통과. 일반/라이브 실행 분리. 2500ms 응답 제한 유지 |
++| 9 | 완료 | 관련 테스트 68개와 빌드 통과. KST 경계와 빌드된 Worker 메타데이터 주입 확인 |
++| 10 | 로컬 필수 검사 완료 | 기본 127개 통과, 대체 타입 검사 통과, 빌드 통과, 프로덕션 취약점 0, Worker 13그룹 통과. 별도 live 및 preview 실패는 아래 기록 |
++
++작업 기준점: genspark-fde23fcc-731d-4c63-96c4-5668c8627003-main(4).zip. GitHub main을 내려받거나 덮어쓰지 않았습니다. ZIP에 Git 이력이 없어 최초 git status/rev-parse는 not a git repository로 실패했습니다. 비교용으로 업로드 원본만 로컬 Git에 기록한 커밋은 00bc51d16251fc35874ec57ba6c6a9b31514b592입니다. 이것은 원격 저장소 커밋이 아닙니다. 원본 파일 목록은 verification/baseline-files.txt에 있습니다.
++
++최초 npm test는 vitest: not found, 최초 npm run build는 vite: not found로 실패했습니다. npm ci --no-audit --no-fund --fetch-retries=0 --fetch-timeout=20000 실행 후 수정 전 기준선은 92 passed, 2 skipped, 빌드 성공이었습니다. 초기 건너뜀 2개는 기존 live 테스트입니다.
++
++package.json 스크립트는 변경하지 않았습니다:
++
++```json
++{
++  "dev": "vite",
++  "build": "vite build --mode client && vite build",
++  "test": "vitest run",
++  "test:live": "RUN_LIVE_TESTS=1 vitest run tests/live",
++  "preview": "wrangler pages dev dist --ip 0.0.0.0 --port 3000",
++  "deploy": "npm run build && wrangler pages deploy dist",
++  "cf-typegen": "wrangler types --env-interface CloudflareBindings"
++}
++```
++
++3. **변경 파일과 변경 이유**
++
++| 파일 | 변경 이유 |
++|---|---|
++| src/services/topicPolicy.ts | 시험·장학금·최초 발급 표현 정규화, 긍정/제외 주제 판별, 문장 단위 분리 공통화 |
++| src/services/questionAnalyzer.ts | 가장 구체적인 제외 주제만 기록하고 positiveQuestion, positiveKeywords, neutralKeywords 분리 |
++| src/config/keywords.ts | 외부장학금·봉사장학금의 명시적인 주제 인식 |
++| src/shared/api.ts | 분석 결과의 의미 필드 선언 |
++| src/services/searchService.ts | 긍정 검색어 사용, 제외 자료만 있는 게시물 후보 제거. 혼합 문서는 본문 검증으로 전달 |
++| src/services/pageFetcher.ts | 일정 항목에 같은 주제 규칙 적용, 검증 일정 근거 사용, checkedAt KST 통일 |
++| src/services/contentExtractor.ts | 문장별 긍정/제외 판별. 혼합 문서에서도 요청 문장 추출. 표시 제목에 제외 주제 혼입 방지 |
++| src/services/answerFormatter.ts | 답변 직전 근거·제목·본문의 제외 주제 재검사 |
++| src/services/answerResolver.ts | 제외 자료만 있는 정상 조회도 안전한 폴백으로 처리, 스냅샷 날짜 헬퍼 적용 |
++| src/services/snapshotRepository.ts | 긍정 질문으로 매칭, 제외 내용 차단, 추론 학기에도 항상 academicTerm 대조 |
++| src/utils/koreanDate.ts | Asia/Seoul 날짜·학기·스냅샷 확인 날짜 공통 함수 |
++| src/config/buildMetadata.ts, src/routes/health.ts | package 버전과 빌드 상수 사용, 런타임 비밀 환경 변수 미노출 |
++| vite.config.ts | 빌드 프로세스에서 CF_PAGES_COMMIT_SHA/RELEASE_ID와 빌드 시각을 Worker 번들 상수로 주입 |
++| package.json, package-lock.json, tsconfig.json | 기존 health 버전인 1.1.0을 package에 명시, 빌드 설정용 @types/node 추가 |
++| vitest.config.ts | 일반 테스트에서 live 경로 제외, opt-in live 실행 범위 분리 |
++| tests/live/officialSources.live.test.ts | 실제 요청 시간·타임아웃·실패 분류 기록. 실패 재throw 유지 |
++| tests/topicPolicy.integration.test.ts | 세 질문의 성공 HTTP mock 및 제외 자료만 있는 응답 검증 |
++| tests/snapshotRepository.test.ts | 고정 시각 학기 매칭과 resolver 폴백 검증 |
++| tests/responseBudget.test.ts | 기존 live의 resolver 성공 검증을 결정론적 mock으로 이동, 기본 제한·실제 스케줄러 검증 추가 |
++| tests/koreanDate.test.ts, tests/buildMetadata.test.ts | 날짜 경계, checkedAt, health allowlist·버전·고정 메타데이터 검증 |
++| scripts/verify-worker.mjs | dist/_worker.js 직접 호출 재현용 검증 |
++| docs/phase5-10-report.md, verification/* | 기준점·실행 결과·실패 원문·검증 보고 보존 |
++
++기존 프런트엔드 UI, 스냅샷의 공식 사실 데이터, 보안 헤더 정책은 재설계하지 않았습니다.
++
++4. **부정 표현 처리 전후**
++
++| 질문 | 수정 전 코드의 문제 | 수정 후 검증 결과 |
++|---|---|---|
++| 이번 학기 중간고사 말고 기말고사 | 중간고사가 matched/searchKeywords와 일정 매칭에 잔류 | 같은 학사일정 JSON에서 기말시험 항목과 12월 날짜만 반환 |
++| 국가장학금 말고 외부장학금 | 국가장학금 검색·평가 경로가 남고 일반 장학금도 제외될 수 있음 | 정확히 국가장학금만 제외. 장학금 문맥 유지. 외부장학금 게시물과 본문 선택 |
++| 학생증 재발급이 아니라 처음 발급 | 재발급과 발급의 포함 관계로 제외 범위가 과도하거나 재발급 근거 선택 가능 | 재발급만 제외, 발급 유지. 최초/처음/신규 발급 표현을 같은 긍정 주제로 처리 |
++
++혼합 문서 전체를 폐기하지 않고 항목/문장을 선택합니다. 분리할 수 없는 혼합 문장은 안전하게 거절합니다. 긍정 근거가 없고 제외 자료만 있으면 upstream_unavailable입니다. 요청 질문과 analysis에는 사용자 원문/제외 주제 기록이 남지만 answer와 sources에는 잘못된 제외 주제 답변이 나오지 않는지 검증했습니다.
++
++5. **학기 스냅샷 처리 전후**
++
++수정 전에는 명시한 연도/학기 또는 상대 학기 표현이 있어야 스냅샷 학기를 강제 대조했습니다. 수정 후에는 academicTerm이 있으면 항상 분석 결과의 연도와 학기를 모두 비교합니다. 일치 검사 후에만 만료 여부를 판정합니다. 2027년 1학기에 연도 없이 물은 중간고사·국가장학금 질문에는 2026년 2학기 자료를 stale로도 반환하지 않습니다. 현재 학기 또는 명시적으로 요청한 과거 학기와 일치하면 기존 만료 정책을 유지합니다.
++
++6. **추가·수정 테스트 목록**
++
++- topicPolicy.integration: 8개. 세 긍정 성공 mock, 세 제외 자료만 있는 mock, 한 문단 문장 분리, 최종 안전 검증.
++- snapshotRepository: 13개. 저장소 6개, resolver 6개, 미래 학기에 일치하는 fixture 선택 1개.
++- responseBudget: 4개. 2499ms 미완료/2500ms 완료 두 경우, 실제 스케줄러 2250~3250ms, 즉시 성공 mock의 verified_live.
++- koreanDate: 9개. KST 자정·3월·9월·연말연초 경계 8개와 checkedAt 통합 1개.
++- buildMetadata: 1개. package 버전, 출력 키 allowlist, 비밀값 미노출, no-store.
++- live: 공식 일정 원문 검증 1개 유지. 기존 두 번째 resolver 성공 검증은 responseBudget에 이동하고 verified_live/live/ok 조건 유지.
++- 기존 기본 테스트 92개와 기존 9개 경계 질문은 그대로 통과. 테스트 삭제·단언 완화·강제 통과 처리 없음. 일반 실행에서 live를 분리한 것은 요청된 테스트 목적 분리입니다.
++
++7. **실행한 명령과 실제 결과**
++
++| 명령 | 실제 결과 |
++|---|---|
++| ZIP 목록 조회·안전한 압축 해제·필수 파일/키워드 검사 | 성공 |
++| 최초 git status --short / git rev-parse HEAD | Git 저장소 없음으로 실패 |
++| 최초 npm test / npm run build | vitest / vite 미설치로 실패 |
++| npm ci --no-audit --no-fund --fetch-retries=0 --fetch-timeout=20000 | 성공, 118 packages 설치 |
++| 기준선 npm test / npm run build | 92 passed, 2 skipped / 빌드 성공 |
++| Phase 6 관련 vitest 7개 파일 | 최종 76 passed |
++| Phase 7 관련 vitest 3개 파일 | 55 passed |
++| Phase 8 관련 vitest 2개 파일 | 38 passed |
++| Phase 9 관련 vitest 5개 파일 및 build | 68 passed / 성공 |
++| CF_PAGES_COMMIT_SHA와 RELEASE_ID를 fixture로 주입한 npm run build 및 Node Worker 호출 | 성공: 40자리 커밋, 지정 release, 1.1.0, 고정 builtAt, 비밀값 미노출 |
++| npm install --save-dev @types/node@24 --no-audit --no-fund --fetch-retries=0 --fetch-timeout=20000 | 성공 |
++| 최종 npm test | exit 0, 127 passed |
++| npx tsc --noEmit | exit 2, 아래 실행 환경 panic |
++| npx --yes --package typescript@5.9.3 tsc --noEmit | Node 타입 보완 후 exit 0 |
++| 최종 npm run build | exit 0 |
++| npm audit --omit=dev | exit 0, found 0 vulnerabilities |
++| npm run test:live | exit 1, timeout. 실패 유지 |
++| node scripts/verify-worker.mjs | exit 0, 13그룹 통과 |
++| npm run preview | exit 1, Worker compile 이후 실행 환경 오류 |
++
++기본 타입 검사 실행기 오류 원문:
++
++```text
++panic: vfs: failed to get executable path: readlink /proc/self/exe: no such file or directory
++```
++
++기본 명령 자체가 실행되지 않아 사용자 지정 예외대로 TypeScript 5.9.3을 사용했습니다. 최초 대체 검사에서는 node:fs/process 타입 선언 누락 오류가 발견됐으며 @types/node와 tsconfig의 node types 추가 후 통과했습니다.
++
++추가 테스트 초기에는 게시판 fixture의 td 열이 부족해 후보가 0개였고 3개가 실패했습니다. 실제 파서의 최소 4열 구조에 맞게 fixture를 수정했습니다. 애플리케이션 파서나 통과 단언을 완화하지 않았습니다. 실패 로그는 verification/phase6-fixture-failure.log에 보존했습니다.
++
++8. **기본 테스트 개수**
++
++15 test files, 127 passed, 0 failed, 0 skipped. 소요 시간 2.90초. 일반 테스트에서 실네트워크 테스트는 실행 대상이 아니며 건너뛴 테스트로 통계를 숨기지 않았습니다. 로그: verification/final-test.log.
++
++9. **라이브 테스트 결과와 실제 시간**
++
++0 passed, 1 failed, 0 skipped. 마지막 요청 계층 측정 6001ms, 전체 가용성 측정 6006ms, 테스트 전체 6010ms. 실패 분류 timeout. 내부 공식 요청 제한 6000ms, 테스트 전체 상한용 타이머 15000ms. HTTP 응답을 수신하지 못했으므로 정상 응답 시간이나 공식 정보의 최신성을 확인한 값이 아닙니다.
++
++최초 실행은 6010ms에 network unavailable로 잘못 분류했으나 원인은 official fetch timeout이었습니다. 내부 요청 signal의 aborted 상태도 검사하도록 수정한 후 재실행했고 timeout으로 정확히 기록했습니다. 두 실행 원문을 모두 보존했습니다. 앱의 2500ms 사용자 응답 제한은 늘리지 않았습니다.
++
++10. **빌드 및 보안 검사**
++
++클라이언트 번들: client.css 19.18kB, client.js 237.76kB. Worker 번들: 118.31kB. npm audit --omit=dev: 취약점 0개.
++
++빌드된 Worker에서 /와 /api/health 모두 HTTP 200, health JSON 및 Cache-Control: no-store를 확인했습니다. 두 경로에서 CSP, HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy를 확인했습니다. 502 폴백, 세 부정 표현의 실패·성공 경로, 미래 학기 질문 3개에서 과거 자료 차단도 확인했습니다.
++
++Wrangler 프리뷰는 Compiled Worker successfully 이후 다음 오류로 종료했습니다:
++
++```text
++A system error occurred: uv_interface_addresses returned Unknown system error 1 (Unknown system error 1)
++```
++
++이는 프로덕션 빌드 실패가 아닙니다. Node에서 실제 dist/_worker.js를 가져와 fetch를 직접 호출한 검증은 통과했습니다. Cloudflare workerd 런타임 자체의 검증을 대체해 완료했다고 주장하지 않습니다.
++
++11. **남아 있는 문제와 배포 전 수동 확인**
++
++- 공식 소스 정상 가용성은 이 환경에서 미확인입니다. 네트워크 접근이 가능한 환경에서 npm run test:live를 다시 실행해 정상 응답·현재 게시물 구조를 확인해야 합니다.
++- 정상 환경에서 Wrangler 프리뷰와 Cloudflare 계정 설정을 확인해야 합니다. 계정에 접속하거나 배포하지 않았습니다.
++- Pages의 빌드 명령은 npm run build, 출력은 dist입니다. Pages 빌드 프로세스의 CF_PAGES_COMMIT_SHA를 vite.config.ts가 읽어 Worker에 주입합니다. 수동 로컬 빌드에서는 필요하면 비밀값이 아닌 RELEASE_ID/CF_PAGES_COMMIT_SHA를 빌드 때 제공해야 합니다. 런타임 바인딩 자동 전달에 의존하지 않습니다.
++- 이번 최종 산출물은 로컬 빌드이므로 releaseId/commitSha는 local-development이고 builtAt은 실제 빌드 시각입니다. 사용자 계정에서 새 빌드를 수행한 뒤 /api/health의 커밋과 빌드 시각을 확인해야 합니다.
++- 저장된 스냅샷의 사실이나 확인 날짜를 새로 검증한 것으로 갱신하지 않았습니다. 만료 경고는 기존 정책대로 유지합니다.
++- TypeScript 7 실행 환경 문제는 미해결이며, 허용된 5.9.3 대체 검사만 통과했습니다. 실행 환경의 /proc 지원을 확인하십시오.
++
++12. **git diff --stat**
++
++전체 출력은 verification/git-diff-stat.txt에 있습니다. 변경 비교 기준은 위의 업로드 원본 로컬 커밋이며 GitHub main이 아닙니다. 신규 파일도 intent-to-add로 diff에 포함했습니다. 재적용 가능한 변경은 verification/source-changes.patch에 있습니다. node_modules와 .git은 전달 ZIP에서 제외했고, 실제 검증한 dist와 실행 로그는 포함했습니다.
++
++13. **외부 변경 여부**
++
++Git push 없음. PR 생성 없음. Cloudflare 배포 없음. 원격 저장소 소스 다운로드/덮어쓰기 없음. 수행한 변경과 검증은 모두 로컬 작업과 수정 결과물 저장에 한정됩니다.
+diff --git a/package-lock.json b/package-lock.json
+index 8fdd61d..4a3cf98 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1,10 +1,12 @@
+ {
+   "name": "webapp",
++  "version": "1.1.0",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "webapp",
++      "version": "1.1.0",
+       "dependencies": {
+         "domhandler": "^6.0.1",
+         "hono": "^4.13.8",
+@@ -17,6 +19,7 @@
+         "@hono/vite-build": "^1.11.1",
+         "@hono/vite-dev-server": "^0.26.1",
+         "@tailwindcss/vite": "^4.3.3",
++        "@types/node": "^24.19.0",
+         "@types/react": "^19.3.0",
+         "@types/react-dom": "^19.3.0",
+         "@vitejs/plugin-react": "^6.1.1",
+@@ -2138,6 +2141,16 @@
+       "dev": true,
+       "license": "MIT"
+     },
++    "node_modules/@types/node": {
++      "version": "24.19.0",
++      "resolved": "https://registry.npmjs.org/@types/node/-/node-24.19.0.tgz",
++      "integrity": "sha512-zY+5tKxXdhGh1PYI0ac+7juvEu4OI6vWtVVoj5i2m42jxAY1U+zHGt6QCyOFwykdP62sM3MJ9stoYYUw5aCWew==",
++      "dev": true,
++      "license": "MIT",
++      "dependencies": {
++        "undici-types": ">=7.24.0 <7.24.7"
++      }
++    },
+     "node_modules/@types/react": {
+       "version": "19.3.0",
+       "resolved": "https://registry.npmjs.org/@types/react/-/react-19.3.0.tgz",
+@@ -3614,6 +3627,13 @@
+         "node": ">=20.18.1"
+       }
+     },
++    "node_modules/undici-types": {
++      "version": "7.24.6",
++      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.24.6.tgz",
++      "integrity": "sha512-WRNW+sJgj5OBN4/0JpHFqtqzhpbnV0GuB+OozA9gCL7a993SmU+1JBZCzLNxYsbMfIeDL+lTsphD5jN5N+n0zg==",
++      "dev": true,
++      "license": "MIT"
++    },
+     "node_modules/unenv": {
+       "version": "2.0.0-rc.24",
+       "resolved": "https://registry.npmjs.org/unenv/-/unenv-2.0.0-rc.24.tgz",
+diff --git a/package.json b/package.json
+index 54e453e..ca2dc2d 100644
+--- a/package.json
++++ b/package.json
+@@ -22,6 +22,7 @@
+     "@hono/vite-build": "^1.11.1",
+     "@hono/vite-dev-server": "^0.26.1",
+     "@tailwindcss/vite": "^4.3.3",
++    "@types/node": "^24.19.0",
+     "@types/react": "^19.3.0",
+     "@types/react-dom": "^19.3.0",
+     "@vitejs/plugin-react": "^6.1.1",
+@@ -30,5 +31,6 @@
+     "vite": "^8.1.4",
+     "vitest": "^5.0.1",
+     "wrangler": "^4.110.0"
+-  }
++  },
++  "version": "1.1.0"
+ }
+diff --git a/scripts/verify-worker.mjs b/scripts/verify-worker.mjs
+new file mode 100644
+index 0000000..add7897
+--- /dev/null
++++ b/scripts/verify-worker.mjs
+@@ -0,0 +1,94 @@
++import assert from 'node:assert/strict'
++import { readFileSync, writeFileSync } from 'node:fs'
++import worker from '../dist/_worker.js'
++
++const results = []
++const RealDate = Date
++const realFetch = globalThis.fetch
++const fixedClock = (instant) => {
++  globalThis.Date = class extends RealDate {
++    constructor(...args) { super(...(args.length ? args : [instant])) }
++    static now() { return new RealDate(instant).getTime() }
++  }
++}
++const call = (path, init) => worker.fetch(new Request(`https://local.test${path}`, init), {})
++const chat = async (question) => {
++  const response = await call('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question }) })
++  assert.equal(response.status, 200)
++  return response.json()
++}
++const record = (name, data = {}) => { results.push({ name, status: 'passed', ...data }); console.log('PASS', name, data) }
++const html = (text) => new Response(text, { headers: { 'Content-Type': 'text/html' } })
++const board = (titles) => `<table>${titles.map((title, i) => `<tr><td>1</td><td class="ta_l"><a href="/SCNU/na/ntt/selectNttInfo.do?nttSn=${i+1}">${title}</a></td><td>학생지원과</td><td>2026.09.20</td></tr>`).join('')}</table>`
++try {
++  for (const path of ['/', '/api/health']) {
++    const response = await call(path)
++    assert.equal(response.status, 200)
++    for (const header of ['content-security-policy','strict-transport-security','x-content-type-options','x-frame-options','referrer-policy','permissions-policy']) assert.ok(response.headers.get(header), header)
++    if (path === '/api/health') {
++      assert.equal(response.headers.get('cache-control'), 'no-store')
++      assert.ok(response.headers.get('content-type').includes('application/json'))
++      const health = await response.json()
++      const next = await (await call(path)).json()
++      assert.equal(health.appVersion, JSON.parse(readFileSync(new URL('../package.json', import.meta.url))).version)
++      assert.equal(health.builtAt, next.builtAt)
++      assert.ok(Number.isFinite(Date.parse(health.builtAt)))
++      assert.equal(health.releaseId, 'local-development')
++      assert.equal(health.commitSha, 'local-development')
++      record('health metadata', health)
++    }
++    record(`${path}: status and security headers`)
++  }
++  fixedClock('2026-09-26T00:00:00Z')
++  globalThis.fetch = async () => new Response('fixture upstream error', { status: 502 })
++  const fallback = await chat('이번 학기 중간고사 언제야?')
++  assert.equal(fallback.status, 'verified_snapshot')
++  record('502 -> verified snapshot')
++  for (const [question, excluded] of [
++    ['이번 학기 중간고사 말고 기말고사', /중간고사|중간시험/],
++    ['국가장학금 말고 외부장학금', /국가장학금/],
++    ['학생증 재발급이 아니라 처음 발급', /재발급/],
++  ]) {
++    const result = await chat(question)
++    assert.equal(result.status, 'upstream_unavailable')
++    assert.doesNotMatch(JSON.stringify({ answer: result.answer, sources: result.sources }), excluded)
++    record(`excluded topic safe fallback: ${question}`)
++  }
++  for (const [kind, question, positive, excluded] of [
++    ['academic', '이번 학기 중간고사 말고 기말고사', '기말시험', /중간고사|중간시험/],
++    ['scholarship', '국가장학금 말고 외부장학금', '외부장학금', /국가장학금/],
++    ['student', '학생증 재발급이 아니라 처음 발급', '최초 발급', /재발급/],
++  ]) {
++    globalThis.fetch = async (input) => {
++      const url = new URL(String(input))
++      if (kind === 'academic') return new Response(JSON.stringify([
++        { bgnde: '2026/10/19', schdulTitle: '제2학기 중간시험' },
++        { bgnde: '2026/12/14', schdulTitle: '제2학기 기말시험' },
++      ]))
++      if (url.searchParams.has('searchValue')) return html(board(kind === 'scholarship'
++        ? ['국가장학금 신청 안내', '외부장학금 신청 안내'] : ['학생증 최초 발급 및 재발급 안내']))
++      return html(kind === 'scholarship'
++        ? '<p>국가장학금 신청 기간은 2026.09.01부터 2026.09.09입니다.</p><p>외부장학금 신청 기간은 2026.10.01부터 2026.10.15입니다.</p>'
++        : '<p>학생증 재발급 수수료는 3000원입니다.</p><p>학생증 최초 발급은 온라인 신청 후 학생지원과에서 수령합니다.</p>')
++    }
++    const result = await chat(question)
++    assert.equal(result.status, 'verified_live')
++    assert.ok(result.answer.content.includes(positive))
++    assert.doesNotMatch(JSON.stringify({ answer: result.answer, sources: result.sources }), excluded)
++    record(`successful mixed source: ${question}`)
++  }
++  fixedClock('2027-04-01T00:00:00Z')
++  globalThis.fetch = async () => new Response('fixture upstream error', { status: 502 })
++  for (const question of ['중간고사 언제야?', '국가장학금 신청 기간 알려줘', '2027학년도 1학기 중간고사 언제야?']) {
++    const result = await chat(question)
++    assert.equal(result.status, 'upstream_unavailable')
++    assert.equal(result.meta.cacheHit, false)
++    assert.deepEqual(result.sources, [])
++    record(`future semester rejects old snapshot: ${question}`)
++  }
++} finally {
++  globalThis.fetch = realFetch
++  globalThis.Date = RealDate
++  writeFileSync(new URL('../verification/worker-results.json', import.meta.url), JSON.stringify(results, null, 2))
++}
++console.log(`Worker assertions: ${results.length} groups passed`)
+diff --git a/src/config/buildMetadata.ts b/src/config/buildMetadata.ts
+new file mode 100644
+index 0000000..68fff62
+--- /dev/null
++++ b/src/config/buildMetadata.ts
+@@ -0,0 +1,8 @@
++import packageJson from '../../package.json'
++
++type BuildMetadata = { appVersion: string; releaseId: string; commitSha: string; builtAt: string }
++declare const __APP_BUILD_METADATA__: BuildMetadata
++
++export const buildMetadata: BuildMetadata = typeof __APP_BUILD_METADATA__ === 'undefined'
++  ? { appVersion: packageJson.version, releaseId: 'local-development', commitSha: 'local-development', builtAt: 'local-development' }
++  : __APP_BUILD_METADATA__
+diff --git a/src/config/keywords.ts b/src/config/keywords.ts
+index 1fa8a49..05d7baa 100644
+--- a/src/config/keywords.ts
++++ b/src/config/keywords.ts
+@@ -31,7 +31,7 @@ export const CATEGORY_RULES: CategoryRule[] = [
+     id: 'scholarship',
+     label: '장학금',
+     strongKeywords: [
+-      '장학금', '장학', '국가장학금', '교내장학금', '교외장학금', '근로장학', '학자금대출',
++      '장학금', '장학', '국가장학금', '교내장학금', '교외장학금', '외부장학금', '봉사장학금', '근로장학', '학자금대출',
+     ],
+     relatedKeywords: ['선발', '지급', '소득분위', '한국장학재단', '생활비대출', '등록금지원'],
+     searchTerms: ['장학금', '장학 안내'],
+diff --git a/src/routes/health.ts b/src/routes/health.ts
+index 35ab55c..4f429dd 100644
+--- a/src/routes/health.ts
++++ b/src/routes/health.ts
+@@ -1,34 +1,15 @@
+ import { Hono } from 'hono'
+ import type { HealthResponse } from '../shared/api'
+-
+-const DEFAULT_APP_VERSION = '1.1.0'
+-const LOCAL_METADATA_FALLBACK = 'local-development'
+-
+-type BuildMetadataBindings = {
+-  APP_VERSION?: string
+-  RELEASE_ID?: string
+-  CF_PAGES_COMMIT_SHA?: string
+-  BUILD_TIMESTAMP?: string
+-}
+-
+-function metadataValue(value: string | undefined, fallback: string) {
+-  const normalized = value?.trim()
+-  return normalized ? normalized : fallback
+-}
++import { buildMetadata } from '../config/buildMetadata'
+ 
+ export const healthRoute = new Hono()
+ 
+ healthRoute.get('/health', (c) => {
+-  const env = (c.env ?? {}) as BuildMetadataBindings
+   const response: HealthResponse = {
+     status: 'ok',
+     service: 'SCNU Campus Assistant API',
+-    appVersion: metadataValue(env.APP_VERSION, DEFAULT_APP_VERSION),
+-    releaseId: metadataValue(env.RELEASE_ID, LOCAL_METADATA_FALLBACK),
+-    commitSha: metadataValue(env.CF_PAGES_COMMIT_SHA, LOCAL_METADATA_FALLBACK),
+-    builtAt: metadataValue(env.BUILD_TIMESTAMP, LOCAL_METADATA_FALLBACK),
++    ...buildMetadata,
+     timestamp: new Date().toISOString(),
+   }
+-
+   return c.json(response)
+ })
+diff --git a/src/services/answerFormatter.ts b/src/services/answerFormatter.ts
+index 6099a93..6a4d8ad 100644
+--- a/src/services/answerFormatter.ts
++++ b/src/services/answerFormatter.ts
+@@ -1,3 +1,4 @@
++import { acceptsEvidence, containsExcluded } from './topicPolicy'
+ import type { AnswerSource, QuestionAnalysis, SearchReport } from '../shared/api'
+ import type { PipelineResult, VerifiedDocument } from '../types/pipeline'
+ 
+@@ -79,7 +80,10 @@ export function formatRuleBasedAnswer(
+   search: SearchReport,
+   documents: VerifiedDocument[],
+ ): PipelineResult & { sources: AnswerSource[] } {
+-  const relevantDocuments = documents.filter((document) => document.relevant)
++  const relevantDocuments = documents.filter((document) => document.relevant
++    && acceptsEvidence(document.evidence[0] || document.content, analysis)
++    && !containsExcluded([document.title, document.content, ...document.evidence,
++      ...document.extracted.locations].join(' '), analysis))
+ 
+   if (!analysis.supported || analysis.ambiguous || relevantDocuments.length === 0) {
+     return {
+diff --git a/src/services/answerResolver.ts b/src/services/answerResolver.ts
+index 826098f..9ef9347 100644
+--- a/src/services/answerResolver.ts
++++ b/src/services/answerResolver.ts
+@@ -1,3 +1,4 @@
++import { snapshotCheckDate } from '../utils/koreanDate'
+ import type { VerifiedSnapshot } from '../data/verifiedSnapshots'
+ import type {
+   AnswerSource,
+@@ -62,7 +63,7 @@ function snapshotSource(snapshot: VerifiedSnapshot): AnswerSource {
+     department: snapshot.department,
+     url: snapshot.sourceUrl,
+     publishedAt: null,
+-    checkedAt: snapshot.verifiedAt,
++    checkedAt: snapshotCheckDate(snapshot.verifiedAt),
+   }
+ }
+ 
+@@ -79,14 +80,14 @@ function snapshotAnswer(snapshot: VerifiedSnapshot, now: Date, upstreamStatus: U
+     fields: [
+       ...snapshot.fields,
+       { label: '확인 방식', value: stale ? '오래된 마지막 검증본' : '사전 검증 자료' },
+-      { label: '마지막 확인일', value: snapshot.verifiedAt.replaceAll('-', '.') },
++      { label: '마지막 확인일', value: snapshotCheckDate(snapshot.verifiedAt).replaceAll('-', '.') },
+     ],
+     sources: [snapshotSource(snapshot)],
+     search: emptySearch('failed'),
+     answerMode: 'snapshot',
+     upstreamStatus,
+     cacheHit: true,
+-    lastSuccessfulCheck: snapshot.verifiedAt,
++    lastSuccessfulCheck: snapshotCheckDate(snapshot.verifiedAt),
+   }
+ }
+ 
+@@ -165,7 +166,7 @@ export async function resolveAnswer(
+     const formatted = formatRuleBasedAnswer(analysis, search, live.documents)
+     const liveFailed = search.status === 'failed'
+ 
+-    if (formatted.status !== 'not_found' || !liveFailed) {
++    if (formatted.status !== 'not_found' || (!liveFailed && analysis.excludedKeywords.length === 0)) {
+       return {
+         ...formatted,
+         status: formatted.status === 'verified' ? 'verified_live' : formatted.status,
+diff --git a/src/services/contentExtractor.ts b/src/services/contentExtractor.ts
+index 1d0cde1..98c0c21 100644
+--- a/src/services/contentExtractor.ts
++++ b/src/services/contentExtractor.ts
+@@ -1,3 +1,4 @@
++import { acceptsEvidence, containsExcluded, evidenceUnits } from './topicPolicy'
+ import { DomUtils, ElementType, parseDocument } from 'htmlparser2'
+ import type { AnyNode, Element } from 'domhandler'
+ import type { QuestionAnalysis, SearchCandidate } from '../shared/api'
+@@ -80,7 +81,8 @@ function collectContentLines(html: string) {
+ 
+ function relevantLines(lines: string[], analysis: QuestionAnalysis) {
+   const keywords = [...analysis.matchedKeywords, analysis.categoryLabel]
+-  return lines
++  return lines.flatMap(evidenceUnits)
++    .filter((line) => acceptsEvidence(line, analysis))
+     .map((line) => {
+       let score = keywords.reduce((total, keyword) => total + (line.includes(keyword) ? 1 : 0), 0)
+       if (analysis.intent === 'contact' && /(?:0\d{1,2}[-)]?\s*)?\d{3,4}[-)]\d{4}/.test(line)) score += 2
+@@ -115,7 +117,7 @@ export function extractOfficialDocument(
+   return {
+     candidate,
+     finalUrl,
+-    title: candidate.title,
++    title: containsExcluded(candidate.title, analysis) ? `${analysis.positiveKeywords.join(' · ')} 공식 안내` : candidate.title,
+     department: candidate.department,
+     publishedAt: candidate.publishedAt,
+     checkedAt,
+diff --git a/src/services/pageFetcher.ts b/src/services/pageFetcher.ts
+index 4e4cf30..a606d8e 100644
+--- a/src/services/pageFetcher.ts
++++ b/src/services/pageFetcher.ts
+@@ -1,3 +1,5 @@
++import { koreanDate } from '../utils/koreanDate'
++import { acceptsEvidence } from './topicPolicy'
+ import { URL_SECURITY_LIMITS } from '../config/domains'
+ import type { QuestionAnalysis, SearchCandidate, SearchReport } from '../shared/api'
+ import type { RequestContext, VerifiedDocument } from '../types/pipeline'
+@@ -24,6 +26,7 @@ function normalizedTopic(value: string) {
+ }
+ 
+ function calendarMatches(event: CalendarEvent, analysis: QuestionAnalysis) {
++  if (!acceptsEvidence(event.schdulTitle ?? '', analysis)) return false
+   const title = normalizedTopic(event.schdulTitle ?? '')
+   const yearMatches = event.bgnde?.startsWith(String(analysis.context.year))
+   const eventMonth = Number(event.bgnde?.split('/')[1] ?? '0')
+@@ -102,7 +105,7 @@ async function fetchAcademicCalendar(
+         department: candidate.department,
+         publishedAt: null,
+         checkedAt,
+-        content: event.schdulCn?.trim() || evidence,
++        content: evidence,
+         evidence: [evidence],
+         extracted,
+         relevant: Boolean(startDate),
+@@ -138,7 +141,7 @@ export async function fetchAndVerifyCandidates(
+   context?: RequestContext,
+ ): Promise<VerifiedDocument[]> {
+   if (!analysis.supported || analysis.ambiguous) return []
+-  const checkedAt = new Date().toISOString().slice(0, 10)
++  const checkedAt = koreanDate()
+   const documents: VerifiedDocument[] = []
+   const failures: unknown[] = []
+   let attemptedDocuments = 0
+diff --git a/src/services/questionAnalyzer.ts b/src/services/questionAnalyzer.ts
+index 530b8bb..426ea65 100644
+--- a/src/services/questionAnalyzer.ts
++++ b/src/services/questionAnalyzer.ts
+@@ -1,3 +1,4 @@
++import { koreanAcademicTerm } from '../utils/koreanDate'
+ import {
+   CATEGORY_RULES,
+   INTENT_LABELS,
+@@ -88,24 +89,6 @@ function detectIntent(question: string, category: QuestionCategory): QuestionInt
+   return category === 'contact' ? 'contact' : 'general'
+ }
+ 
+-function getKoreanAcademicTerm(now: Date) {
+-  const parts = new Intl.DateTimeFormat('en-US', {
+-    timeZone: 'Asia/Seoul',
+-    year: 'numeric',
+-    month: 'numeric',
+-  }).formatToParts(now)
+-  const calendarYear = Number(parts.find((part) => part.type === 'year')?.value)
+-  const month = Number(parts.find((part) => part.type === 'month')?.value)
+-
+-  if (!Number.isInteger(calendarYear) || !Number.isInteger(month)) {
+-    throw new Error('KST academic term calculation failed')
+-  }
+-
+-  if (month >= 3 && month <= 8) return { year: calendarYear, semester: 1 as const }
+-  if (month >= 9) return { year: calendarYear, semester: 2 as const }
+-  return { year: calendarYear - 1, semester: 2 as const }
+-}
+-
+ function inferAcademicContext(question: string, now: Date) {
+   const explicitYear = question.match(/\b(20\d{2})(?:\s*학년도|\s*년)?\b/)
+   const explicitSemester = question.match(/(?:제\s*)?([12])\s*학기/)
+@@ -114,7 +97,7 @@ function inferAcademicContext(question: string, now: Date) {
+     : question.includes('두 번째 학기') || question.includes('2학기')
+       ? 2
+       : null
+-  const currentTerm = getKoreanAcademicTerm(now)
++  const currentTerm = koreanAcademicTerm(now)
+ 
+   let year = explicitYear ? Number(explicitYear[1]) : currentTerm.year
+   let semester = (explicitSemester ? Number(explicitSemester[1]) : koreanSemester) as 1 | 2 | null
+@@ -168,7 +151,7 @@ function detectExcludedKeywords(question: string) {
+     }
+   }
+ 
+-  return [...excluded]
++  return [...excluded].filter((term) => ![...excluded].some((longer) => longer !== term && longer.includes(term)))
+ }
+ 
+ function buildSearchKeywords(
+@@ -190,13 +173,19 @@ function buildSearchKeywords(
+ 
+ export function analyzeQuestion(rawQuestion: string, now = new Date()): QuestionAnalysis {
+   const question = normalizeQuestion(rawQuestion)
+-  const ranked = rankCategories(question)
++  const excludedKeywords = detectExcludedKeywords(question)
++  // Remove only the explicitly negated occurrence, preserving shared context and later positive mentions.
++  let positiveQuestion = question
++  for (const keyword of excludedKeywords) {
++    positiveQuestion = positiveQuestion.replace(new RegExp(`${keyword}(?:이|가|은|는|을|를)?\\s*(?:말고|아니라|제외|빼고)`, 'g'), ' ')
++  }
++  const ranked = rankCategories(positiveQuestion)
+   const top = ranked[0]
+   const second = ranked[1]
+   const supported = Boolean(top && top.score >= MIN_SUPPORTED_SCORE)
+   const category: QuestionCategory = supported ? top.rule.id : 'unknown'
+   const categoryLabel = supported ? top.rule.label : '지원하지 않는 질문'
+-  const intent = detectIntent(question, category)
++  const intent = detectIntent(positiveQuestion, category)
+   const context = inferAcademicContext(question, now)
+   const ambiguous = Boolean(
+     supported
+@@ -207,6 +196,9 @@ export function analyzeQuestion(rawQuestion: string, now = new Date()): Question
+   const matchedKeywords = supported
+     ? unique([...top.strongMatches, ...top.relatedMatches])
+     : []
++  const neutralKeywords = matchedKeywords.filter((term) => ['학기', '일정', '시험', '신청기간', '발급'].includes(term))
++  let positiveKeywords = matchedKeywords.filter((term) => !neutralKeywords.includes(term))
++  if (/처음\s*발급|최초\s*발급|신규\s*발급/.test(positiveQuestion)) positiveKeywords = ['최초 발급']
+   const searchKeywords = supported
+     ? buildSearchKeywords(top.rule, intent, matchedKeywords, context)
+     : []
+@@ -221,7 +213,10 @@ export function analyzeQuestion(rawQuestion: string, now = new Date()): Question
+ 
+   return {
+     normalizedQuestion: question,
+-    excludedKeywords: detectExcludedKeywords(question),
++    excludedKeywords,
++    positiveKeywords,
++    neutralKeywords,
++    positiveQuestion,
+     category,
+     categoryLabel,
+     intent,
+diff --git a/src/services/searchService.ts b/src/services/searchService.ts
+index 1d32731..45d16fa 100644
+--- a/src/services/searchService.ts
++++ b/src/services/searchService.ts
+@@ -1,3 +1,4 @@
++import { containsExcluded, matchesPositive } from './topicPolicy'
+ import {
+   OFFICIAL_SEARCH_SOURCES,
+   SEARCH_LIMITS,
+@@ -41,7 +42,7 @@ function selectSources(analysis: QuestionAnalysis) {
+ }
+ 
+ function buildSearchTerms(analysis: QuestionAnalysis) {
+-  const primaryTerm = analysis.matchedKeywords
++  const primaryTerm = analysis.positiveKeywords
+     .filter((keyword) => !['학기', '일정', '신청', '문의', '전화'].includes(keyword))
+     .sort((left, right) => right.length - left.length)[0]
+     ?? analysis.categoryLabel
+@@ -51,6 +52,9 @@ function buildSearchTerms(analysis: QuestionAnalysis) {
+ }
+ 
+ function scoreCandidate(item: ParsedBoardItem, analysis: QuestionAnalysis) {
++  if (containsExcluded(item.title, analysis) && !matchesPositive(item.title, analysis)) {
++    return { score: -1, matchedKeywords: [] }
++  }
+   const searchableText = `${item.title} ${item.department ?? ''}`
+   const matchedKeywords = analysis.searchKeywords.filter((keyword) => includesKeyword(searchableText, keyword))
+   const coreKeywords = analysis.matchedKeywords.filter(
+diff --git a/src/services/snapshotRepository.ts b/src/services/snapshotRepository.ts
+index fadce87..a9640e5 100644
+--- a/src/services/snapshotRepository.ts
++++ b/src/services/snapshotRepository.ts
+@@ -1,3 +1,4 @@
++import { acceptsEvidence, containsExcluded } from './topicPolicy'
+ import { VERIFIED_SNAPSHOTS, type VerifiedSnapshot } from '../data/verifiedSnapshots'
+ import type { QuestionAnalysis } from '../shared/api'
+ 
+@@ -12,16 +13,10 @@ function normalizeMatchTerm(value: string) {
+ function matchesAcademicTerm(
+   snapshot: VerifiedSnapshot,
+   analysis: QuestionAnalysis,
+-  normalizedQuestion: string,
+ ) {
+   if (!snapshot.academicTerm) return true
+ 
+-  const hasRelativeTerm = /(?:이번|다음|지난|이전)\s*학기/.test(normalizedQuestion)
+-  const contextMustMatch = analysis.context.yearWasExplicit
+-    || analysis.context.semesterWasExplicit
+-    || hasRelativeTerm
+-
+-  return !contextMustMatch || (
++  return (
+     snapshot.academicTerm.year === analysis.context.year
+     && snapshot.academicTerm.semester === analysis.context.semester
+   )
+@@ -33,16 +28,19 @@ function matchesRule(
+   normalizedQuestion: string,
+ ) {
+   if (!snapshot.match.intents.includes(analysis.intent)) return false
+-  if (!matchesAcademicTerm(snapshot, analysis, normalizedQuestion)) return false
++  if (!matchesAcademicTerm(snapshot, analysis)) return false
+ 
+-  const question = normalizeMatchTerm(normalizedQuestion)
++  const snapshotText = [snapshot.title, snapshot.content, snapshot.sourceTitle,
++    ...snapshot.fields.map((field) => `${field.label} ${field.value}`)].join(' ')
++  if (!acceptsEvidence(snapshotText, analysis)) return false
++  const question = normalizeMatchTerm(analysis.positiveQuestion ?? normalizedQuestion)
+   const analysisTerms = new Set(
+     [...analysis.matchedKeywords, ...analysis.searchKeywords].map(normalizeMatchTerm),
+   )
+   const excludedTerms = new Set(analysis.excludedKeywords.map(normalizeMatchTerm))
+   const hasTerm = (term: string) => {
+     const normalizedTerm = normalizeMatchTerm(term)
+-    return analysisTerms.has(normalizedTerm) || question.includes(normalizedTerm)
++    return !containsExcluded(term, analysis) && (analysisTerms.has(normalizedTerm) || question.includes(normalizedTerm))
+   }
+   const wasExcluded = (term: string) => excludedTerms.has(normalizeMatchTerm(term))
+ 
+diff --git a/src/services/topicPolicy.ts b/src/services/topicPolicy.ts
+new file mode 100644
+index 0000000..9297b38
+--- /dev/null
++++ b/src/services/topicPolicy.ts
+@@ -0,0 +1,28 @@
++import type { QuestionAnalysis } from '../shared/api'
++
++// Canonical topics are shared by queries, calendar items, evidence and final output.
++export function canonicalTopic(value: string) {
++  return value.toLocaleLowerCase('ko-KR').replace(/중간시험/g, '중간고사')
++    .replace(/기말시험/g, '기말고사').replace(/교외장학금/g, '외부장학금')
++    .replace(/(?:처음|신규)\s*발급/g, '최초발급').replace(/\s+/g, '')
++}
++
++export function containsExcluded(value: string, analysis: QuestionAnalysis) {
++  const text = canonicalTopic(value)
++  return analysis.excludedKeywords.some((term) => text.includes(canonicalTopic(term)))
++}
++
++export function matchesPositive(value: string, analysis: QuestionAnalysis) {
++  const topics = analysis.positiveKeywords ?? analysis.matchedKeywords
++  return topics.length > 0 && topics.some((term) => canonicalTopic(value).includes(canonicalTopic(term)))
++}
++
++export function acceptsEvidence(value: string, analysis: QuestionAnalysis) {
++  return !containsExcluded(value, analysis)
++    && (analysis.excludedKeywords.length === 0 || matchesPositive(value, analysis))
++}
++
++export function evidenceUnits(value: string) {
++  // Do not split decimal dates. Mixed-topic units that cannot be separated are rejected.
++  return value.split(/\n+|;|(?<=[.!?])\s+(?=[가-힣])/).map((unit) => unit.trim()).filter(Boolean)
++}
+diff --git a/src/shared/api.ts b/src/shared/api.ts
+index fedd3f9..0e6d00d 100644
+--- a/src/shared/api.ts
++++ b/src/shared/api.ts
+@@ -42,6 +42,9 @@ export type QuestionIntent =
+ export type QuestionAnalysis = {
+   normalizedQuestion: string
+   excludedKeywords: string[]
++  positiveKeywords: string[]
++  neutralKeywords: string[]
++  positiveQuestion: string
+   category: QuestionCategory
+   categoryLabel: string
+   intent: QuestionIntent
+diff --git a/src/utils/koreanDate.ts b/src/utils/koreanDate.ts
+new file mode 100644
+index 0000000..109b588
+--- /dev/null
++++ b/src/utils/koreanDate.ts
+@@ -0,0 +1,25 @@
++const formatter = new Intl.DateTimeFormat('en-US', {
++  timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit',
++})
++
++export function koreanDateParts(now = new Date()) {
++  const parts = formatter.formatToParts(now)
++  const part = (type: string) => Number(parts.find((item) => item.type === type)?.value)
++  return { year: part('year'), month: part('month'), day: part('day') }
++}
++
++export function koreanDate(now = new Date()) {
++  const { year, month, day } = koreanDateParts(now)
++  return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
++}
++
++export function koreanAcademicTerm(now = new Date()) {
++  const { year, month } = koreanDateParts(now)
++  if (month >= 3 && month <= 8) return { year, semester: 1 as const }
++  return { year: month < 3 ? year - 1 : year, semester: 2 as const }
++}
++
++// Stored verification dates are KST calendar dates, not UTC instants.
++export function snapshotCheckDate(value: string) {
++  return koreanDate(new Date(`${value}T00:00:00+09:00`))
++}
+diff --git a/tests/buildMetadata.test.ts b/tests/buildMetadata.test.ts
+new file mode 100644
+index 0000000..3a05f4a
+--- /dev/null
++++ b/tests/buildMetadata.test.ts
+@@ -0,0 +1,16 @@
++import { expect, it } from 'vitest'
++import app from '../src/index'
++import packageJson from '../package.json'
++
++it('health uses package version and exposes only the metadata allowlist', async () => {
++  const env = { API_KEY: 'fixture-secret', ACCOUNT_ID: 'fixture-account', APP_VERSION: 'unexpected-override' }
++  const first = await app.request('/api/health', {}, env)
++  const body = await first.json()
++  const second = await (await app.request('/api/health')).json()
++  expect(body.appVersion).toBe(packageJson.version)
++  expect(body.builtAt).toBe(second.builtAt)
++  expect(Object.keys(body).sort()).toEqual(['appVersion', 'builtAt', 'commitSha', 'releaseId', 'service', 'status', 'timestamp'].sort())
++  expect(JSON.stringify(body)).not.toContain('fixture-secret')
++  expect(JSON.stringify(body)).not.toContain('fixture-account')
++  expect(first.headers.get('Cache-Control')).toBe('no-store')
++})
+diff --git a/tests/koreanDate.test.ts b/tests/koreanDate.test.ts
+new file mode 100644
+index 0000000..332d444
+--- /dev/null
++++ b/tests/koreanDate.test.ts
+@@ -0,0 +1,35 @@
++import { describe, expect, it, vi } from 'vitest'
++import { koreanDate, koreanAcademicTerm, snapshotCheckDate } from '../src/utils/koreanDate'
++import { analyzeQuestion } from '../src/services/questionAnalyzer'
++import { fetchAndVerifyCandidates } from '../src/services/pageFetcher'
++
++const boundaries = [
++  ['2026-09-26T14:59:59Z', '2026-09-26', 2026, 2],
++  ['2026-09-26T15:00:00Z', '2026-09-27', 2026, 2],
++  ['2027-02-28T14:59:59Z', '2027-02-28', 2026, 2],
++  ['2027-02-28T15:00:00Z', '2027-03-01', 2027, 1],
++  ['2026-08-31T14:59:59Z', '2026-08-31', 2026, 1],
++  ['2026-08-31T15:00:00Z', '2026-09-01', 2026, 2],
++  ['2026-12-31T14:59:59Z', '2026-12-31', 2026, 2],
++  ['2026-12-31T15:00:00Z', '2027-01-01', 2026, 2],
++] as const
++
++describe('KST date and academic boundaries', () => {
++  it.each(boundaries)('%s => %s', (instant, date, year, semester) => {
++    const now = new Date(instant)
++    expect(koreanDate(now)).toBe(date)
++    expect(koreanAcademicTerm(now)).toEqual({ year, semester })
++    expect(analyzeQuestion('중간고사 언제야?', now).context).toMatchObject({ year, semester })
++    expect(snapshotCheckDate(date)).toBe(date)
++  })
++  it('checkedAt uses the Korean date when UTC is still yesterday', async () => {
++    vi.useFakeTimers()
++    vi.setSystemTime(new Date('2026-09-26T15:00:00Z'))
++    try {
++      const documents = await fetchAndVerifyCandidates({ status: 'completed', candidates: [], queriedSources: [], failedSources: [] },
++        analyzeQuestion('중간고사 언제야?'),
++        async () => new Response(JSON.stringify([{ bgnde: '2026/10/19', schdulTitle: '제2학기 중간시험' }])))
++      expect(documents[0].checkedAt).toBe('2026-09-27')
++    } finally { vi.useRealTimers() }
++  })
++})
+diff --git a/tests/live/officialSources.live.test.ts b/tests/live/officialSources.live.test.ts
+index 536a26c..9d6e2d1 100644
+--- a/tests/live/officialSources.live.test.ts
++++ b/tests/live/officialSources.live.test.ts
+@@ -1,36 +1,41 @@
+ import { describe, expect, it } from 'vitest'
++import { URL_SECURITY_LIMITS } from '../../src/config/domains'
+ import { analyzeQuestion } from '../../src/services/questionAnalyzer'
+-import { resolveAnswer } from '../../src/services/answerResolver'
+ import { fetchAndVerifyCandidates } from '../../src/services/pageFetcher'
+-import { searchOfficialSources } from '../../src/services/searchService'
+ 
+-const runLive = process.env.RUN_LIVE_TESTS === '1'
+-
+-describe.skipIf(!runLive)('official SCNU live sources', () => {
+-  it('학사일정 공식 원문에서 현재 학기 중간시험을 확인한다', async () => {
+-    const analysis = analyzeQuestion(
+-      '2026학년도 2학기 중간고사 언제야?',
+-      new Date('2026-09-26T00:00:00.000Z'),
+-    )
+-    const search = await searchOfficialSources(analysis)
+-    const documents = await fetchAndVerifyCandidates(search, analysis)
+-
+-    expect(documents.some((document) =>
+-      document.title.includes('중간시험') && document.extracted.startDate === '2026-10-19',
+-    )).toBe(true)
+-  }, 20_000)
+-
+-  it('production resolver timeout 안에서 공식 학사일정 live 답변을 완료한다', async () => {
+-    const analysis = analyzeQuestion(
+-      '2026학년도 2학기 중간고사 언제야?',
+-      new Date('2026-09-26T00:00:00.000Z'),
+-    )
+-    const result = await resolveAnswer(analysis, {
+-      context: { requestId: 'live-production-timeout-check' },
+-    })
+-
+-    expect(result.status).toBe('verified_live')
+-    expect(result.answerMode).toBe('live')
+-    expect(result.upstreamStatus).toBe('ok')
+-  }, 5_000)
++// Opt-in suite; failures remain failures and carry a diagnostic category.
++describe('official SCNU live source availability', () => {
++  it('학사일정 공식 원문에서 2026년 2학기 중간시험을 확인한다', async () => {
++    const networkTimeoutMs = URL_SECURITY_LIMITS.timeoutMs
++    const overallTimeoutMs = 15000
++    const controller = new AbortController()
++    const timer = setTimeout(() => controller.abort(), overallTimeoutMs)
++    const started = performance.now()
++    let failureKind = 'unexpected response'
++    try {
++      const measuredFetch: typeof fetch = async (input, init) => {
++        const requestStarted = performance.now()
++        try {
++          const response = await fetch(input, init)
++          console.info('live-network', { status: response.status, elapsedMs: Math.round(performance.now() - requestStarted), networkTimeoutMs, overallTimeoutMs })
++          if (!response.ok) failureKind = 'unexpected response'
++          return response
++        } catch (error) {
++          failureKind = (controller.signal.aborted || init?.signal?.aborted) ? 'timeout' : 'network unavailable'
++          throw error
++        }
++      }
++      const analysis = analyzeQuestion('2026학년도 2학기 중간고사 언제야?', new Date('2026-09-26T00:00:00Z'))
++      const documents = await fetchAndVerifyCandidates(
++        { status: 'completed', candidates: [], queriedSources: [], failedSources: [] },
++        analysis, measuredFetch, controller.signal,
++      )
++      expect(documents.some((document) => document.title.includes('중간시험') && document.extracted.startDate === '2026-10-19')).toBe(true)
++      console.info('live-result', { status: 'available', elapsedMs: Math.round(performance.now() - started), networkTimeoutMs, overallTimeoutMs })
++    } catch (error) {
++      const category = controller.signal.aborted ? 'timeout' : failureKind
++      console.error('live-result', { status: category, elapsedMs: Math.round(performance.now() - started), networkTimeoutMs, overallTimeoutMs })
++      throw new Error(`${category}: official calendar availability check failed`, { cause: error })
++    } finally { clearTimeout(timer) }
++  }, 18000)
+ })
+diff --git a/tests/responseBudget.test.ts b/tests/responseBudget.test.ts
+new file mode 100644
+index 0000000..ac7c3c4
+--- /dev/null
++++ b/tests/responseBudget.test.ts
+@@ -0,0 +1,51 @@
++import { describe, expect, it, vi } from 'vitest'
++import { analyzeQuestion } from '../src/services/questionAnalyzer'
++import { resolveAnswer } from '../src/services/answerResolver'
++import { StaticSnapshotRepository } from '../src/services/snapshotRepository'
++const now = new Date('2026-09-26T00:00:00Z')
++
++describe('production 2500ms response budget with deterministic upstream', () => {
++  it.each([true, false])('deadline settles even when upstream ignores abort (snapshot=%s)', async (available) => {
++    vi.useFakeTimers()
++    try {
++      let settled = false
++      const answer = resolveAnswer(analyzeQuestion('중간고사 언제야?', now), {
++        documentFetcher: () => new Promise(() => {}),
++        snapshotRepository: available ? new StaticSnapshotRepository() : new StaticSnapshotRepository([]),
++        now: () => now,
++      }).then((result) => { settled = true; return result })
++      await vi.advanceTimersByTimeAsync(2499)
++      expect(settled).toBe(false)
++      await vi.advanceTimersByTimeAsync(1)
++      const result = await answer
++      expect(settled).toBe(true)
++      expect(result.status).toBe(available ? 'verified_snapshot' : 'upstream_unavailable')
++      expect(result.upstreamStatus).toBe('timeout')
++      expect(vi.getTimerCount()).toBe(0)
++    } finally { vi.useRealTimers() }
++  })
++  it('real scheduler returns within 2250–3250ms with a stalled mock', async () => {
++    const started = performance.now()
++    const result = await resolveAnswer(analyzeQuestion('중간고사 언제야?', now), {
++      documentFetcher: () => new Promise(() => {}), now: () => now,
++    })
++    const elapsed = performance.now() - started
++    console.info('response-budget', { elapsedMs: Math.round(elapsed), budgetMs: 2500 })
++    expect(elapsed).toBeGreaterThanOrEqual(2250)
++    expect(elapsed).toBeLessThanOrEqual(3250)
++    expect(result.status).toBe('verified_snapshot')
++  }, 5000)
++  // Moved from live tests: production resolver success is independent of public network latency.
++  it('production resolver completes verified_live inside its unchanged budget', async () => {
++    const started = performance.now()
++    const result = await resolveAnswer(analyzeQuestion('2026학년도 2학기 중간고사 언제야?', now), {
++      fetcher: async () => new Response(JSON.stringify([
++        { bgnde: '2026/10/19', endde: '2026/10/23', schdulTitle: '제2학기 중간시험' },
++      ])), now: () => now,
++    })
++    expect(result.status).toBe('verified_live')
++    expect(result.answerMode).toBe('live')
++    expect(result.upstreamStatus).toBe('ok')
++    expect(performance.now() - started).toBeLessThan(2500)
++  })
++})
+diff --git a/tests/snapshotRepository.test.ts b/tests/snapshotRepository.test.ts
+new file mode 100644
+index 0000000..7e6bf31
+--- /dev/null
++++ b/tests/snapshotRepository.test.ts
+@@ -0,0 +1,45 @@
++import { describe, expect, it } from 'vitest'
++import { VERIFIED_SNAPSHOTS } from '../src/data/verifiedSnapshots'
++import { analyzeQuestion } from '../src/services/questionAnalyzer'
++import { StaticSnapshotRepository } from '../src/services/snapshotRepository'
++import { resolveAnswer } from '../src/services/answerResolver'
++
++const future = new Date('2027-04-01T00:00:00Z')
++const current = new Date('2026-09-26T00:00:00Z')
++const cases = [
++  [future, '중간고사 언제야?', null],
++  [future, '국가장학금 신청 기간 알려줘', null],
++  [current, '중간고사 언제야?', 'academic-midterm-2026-2'],
++  [future, '2026학년도 2학기 중간고사 언제야?', 'academic-midterm-2026-2'],
++  [current, '2026학년도 1학기 중간고사 언제야?', null],
++  [current, '2027학년도 2학기 국가장학금 신청 기간 알려줘', null],
++] as const
++
++describe('snapshot academic term gate precedes expiration handling', () => {
++  it.each(cases)('repository %s %s', async (now, question, expected) => {
++    const analysis = analyzeQuestion(question, now)
++    const result = await new StaticSnapshotRepository().findBest(analysis, question)
++    expect(result?.id ?? null).toBe(expected)
++  })
++  it.each(cases)('resolver %s %s', async (now, question, expected) => {
++    const result = await resolveAnswer(analyzeQuestion(question, now), {
++      now: () => now,
++      searcher: async () => { throw new Error('fixture upstream failure') },
++      documentFetcher: async () => { throw new Error('fixture upstream failure') },
++    })
++    if (expected) {
++      expect(['verified_snapshot', 'stale']).toContain(result.status)
++      expect(result.cacheHit).toBe(true)
++    } else {
++      expect(result.status).toBe('upstream_unavailable')
++      expect(result.sources).toEqual([])
++      expect(result.cacheHit).toBe(false)
++    }
++  })
++  it('matching inferred future-term fixture is returned, not the old term', async () => {
++    const matching = { ...VERIFIED_SNAPSHOTS[0], id: 'fixture-2027-1', academicTerm: { year: 2027, semester: 1 as const } }
++    const analysis = analyzeQuestion('중간고사 언제야?', future)
++    const result = await new StaticSnapshotRepository([VERIFIED_SNAPSHOTS[0], matching]).findBest(analysis, analysis.normalizedQuestion)
++    expect(result?.id).toBe('fixture-2027-1')
++  })
++})
+diff --git a/tests/topicPolicy.integration.test.ts b/tests/topicPolicy.integration.test.ts
+new file mode 100644
+index 0000000..d19d06d
+--- /dev/null
++++ b/tests/topicPolicy.integration.test.ts
+@@ -0,0 +1,97 @@
++import { describe, expect, it, vi } from 'vitest'
++import { analyzeQuestion } from '../src/services/questionAnalyzer'
++import { resolveAnswer } from '../src/services/answerResolver'
++import { searchOfficialSources } from '../src/services/searchService'
++import { StaticSnapshotRepository } from '../src/services/snapshotRepository'
++
++const now = new Date('2026-09-26T00:00:00Z')
++const html = (text: string) => new Response(text, { headers: { 'Content-Type': 'text/html' } })
++const board = (titles: string[]) => `<table>${titles.map((title, i) => `<tr><td>1</td><td class="ta_l"><a href="/SCNU/na/ntt/selectNttInfo.do?nttSn=${i + 1}">${title}</a></td><td>학생지원과</td><td>2026.09.20</td></tr>`).join('')}</table>`
++const calendar = (includePositive: boolean) => new Response(JSON.stringify([
++  { bgnde: '2026/10/19', endde: '2026/10/23', schdulTitle: '제2학기 중간시험' },
++  ...(includePositive ? [{ bgnde: '2026/12/14', endde: '2026/12/18', schdulTitle: '제2학기 기말시험' }] : []),
++]), { headers: { 'Content-Type': 'application/json' } })
++
++function fixture(kind: string, includePositive: boolean, queries: string[]) {
++  return vi.fn(async (input: RequestInfo | URL) => {
++    const url = new URL(String(input))
++    if (kind === 'academic') return calendar(includePositive)
++    if (url.searchParams.has('searchValue')) {
++      queries.push(url.searchParams.get('searchValue')!)
++      return html(board(kind === 'scholarship'
++        ? ['2026 국가장학금 신청 안내', ...(includePositive ? ['2026 외부장학금 신청 안내'] : [])]
++        : ['학생증 최초 발급 및 재발급 안내']))
++    }
++    if (kind === 'scholarship') return html('<p>국가장학금 신청기간은 2026.09.01 ~ 2026.09.09입니다.</p>'
++      + (includePositive ? '<p>외부장학금 신청기간은 2026.10.01 ~ 2026.10.15입니다.</p>' : ''))
++    return html('<p>학생증 재발급 수수료는 3,000원이며 학생지원과에 방문합니다.</p>'
++      + (includePositive ? '<p>학생증 최초 발급은 신입생이 온라인으로 신청하며 학생지원과에서 수령합니다.</p>' : ''))
++  }) as typeof fetch
++}
++
++const cases = [
++  ['academic', '이번 학기 중간고사 말고 기말고사', '기말시험', /중간고사|중간시험/],
++  ['scholarship', '국가장학금 말고 외부장학금', '외부장학금', /국가장학금/],
++  ['student', '학생증 재발급이 아니라 처음 발급', '최초 발급', /재발급/],
++] as const
++
++describe('successful upstream topic selection', () => {
++  it.each(cases)('%s: mixed successful responses return only requested evidence', async (kind, question, positive, excluded) => {
++    const queries: string[] = []
++    const analysis = analyzeQuestion(question, now)
++    expect(analysis.searchKeywords.join(' ')).not.toMatch(excluded)
++    const fetcher = fixture(kind, true, queries)
++    if (kind === 'scholarship') {
++      const search = await searchOfficialSources(analysis, { fetcher })
++      expect(search.candidates.some((item) => item.title.includes('외부장학금'))).toBe(true)
++      expect(search.candidates.some((item) => item.title.includes('국가장학금'))).toBe(false)
++      expect(analysis.excludedKeywords).toEqual(['국가장학금'])
++      expect(analysis.searchKeywords).toContain('장학금')
++    }
++    if (kind === 'student') {
++      expect(analysis.excludedKeywords).toEqual(['재발급'])
++      expect(analysis.searchKeywords).toContain('발급')
++    }
++    const result = await resolveAnswer(analysis, { fetcher, now: () => now })
++    expect(result.status).toBe('verified_live')
++    expect(result.content).toContain(positive)
++    expect(JSON.stringify({ title: result.title, content: result.content, fields: result.fields, sources: result.sources })).not.toMatch(excluded)
++    expect(queries.join(' ')).not.toMatch(excluded)
++    if (kind === 'academic') expect(JSON.stringify(result.fields)).toContain('2026.12.14')
++  })
++
++  it.each(cases)('%s: successful excluded-only response is unavailable', async (kind, question) => {
++    const result = await resolveAnswer(analyzeQuestion(question, now), {
++      fetcher: fixture(kind, false, []), now: () => now,
++    })
++    expect(result.status).toBe('upstream_unavailable')
++    expect(result.sources).toEqual([])
++  })
++
++  it('same-line sentences are selected separately', async () => {
++    const result = await resolveAnswer(analyzeQuestion(cases[2][1], now), {
++      fetcher: vi.fn(async (input: RequestInfo | URL) => new URL(String(input)).searchParams.has('searchValue')
++        ? html(board(['학생증 안내']))
++        : html('<p>학생증 재발급 수수료는 3000원입니다. 학생증 최초 발급은 온라인 신청 후 학생지원과에서 수령합니다.</p>')) as typeof fetch,
++      now: () => now,
++    })
++    expect(result.status).toBe('verified_live')
++    expect(result.content).not.toContain('재발급')
++    expect(result.content).toContain('최초 발급')
++  })
++
++  it('mixed unseparable evidence is rejected by final validation', async () => {
++    const { extractOfficialDocument } = await import('../src/services/contentExtractor')
++    const analysis = analyzeQuestion(cases[2][1], now)
++    const candidate = { sourceId: 'fixture', sourceName: '공식', title: '학생증 안내', department: null,
++      url: 'https://www.scnu.ac.kr/', publishedAt: null, relevanceScore: 1, matchedKeywords: ['학생증'] }
++    const document = extractOfficialDocument('<p>학생증 최초 발급 및 재발급은 3000원입니다.</p>', candidate, analysis, candidate.url, '2026-09-26')
++    expect(document.relevant).toBe(false)
++    const result = await resolveAnswer(analysis, {
++      searcher: async () => ({ status: 'completed', candidates: [], queriedSources: [], failedSources: [] }),
++      documentFetcher: async () => [{ ...document, relevant: true, content: '학생증 재발급 3000원', evidence: ['학생증 재발급 3000원'] }],
++      snapshotRepository: new StaticSnapshotRepository([]),
++    })
++    expect(result.status).toBe('upstream_unavailable')
++  })
++})
+diff --git a/tsconfig.json b/tsconfig.json
+index b69fe7d..d254653 100644
+--- a/tsconfig.json
++++ b/tsconfig.json
+@@ -6,7 +6,7 @@
+     "strict": true,
+     "skipLibCheck": true,
+     "lib": ["ESNext", "DOM", "DOM.Iterable"],
+-    "types": ["vite/client"],
++    "types": ["vite/client", "node"],
+     "jsx": "react-jsx",
+     "jsxImportSource": "react",
+     "noEmit": true
+diff --git a/verification/baseline-files.txt b/verification/baseline-files.txt
+new file mode 100644
+index 0000000..0232520
+--- /dev/null
++++ b/verification/baseline-files.txt
+@@ -0,0 +1,55 @@
++public/static/style.css
++package.json
++docs/architecture.md
++docs/baseline-2026-09-26.md
++docs/problem-solving.md
++docs/decisions/ADR-004-hwp-out-of-mvp.md
++docs/decisions/ADR-001-no-runtime-llm.md
++docs/decisions/ADR-002-official-source-only.md
++docs/decisions/ADR-003-snapshot-before-d1.md
++docs/security.md
++docs/reliability.md
++vite.config.ts
++verification/baseline-files.txt
++tests/domainValidator.test.ts
++tests/securityHeaders.test.ts
++tests/chatRoute.test.ts
++tests/pageFetcher.test.ts
++tests/contentExtractor.test.ts
++tests/boardParser.test.ts
++tests/answerFormatter.test.ts
++tests/live/officialSources.live.test.ts
++tests/searchService.test.ts
++tests/questionAnalyzer.test.ts
++tests/answerResolver.test.ts
++pnpm-workspace.yaml
++LICENSE
++tsconfig.json
++wrangler.jsonc
++README.md
++ecosystem.config.cjs
++package-lock.json
++src/utils/domainValidator.ts
++src/utils/textNormalizer.ts
++src/index.tsx
++src/renderer.tsx
++src/types/pipeline.ts
++src/routes/chat.ts
++src/routes/health.ts
++src/data/verifiedSnapshots.ts
++src/frontend/App.tsx
++src/frontend/lib/api.ts
++src/frontend/styles/index.css
++src/frontend/main.tsx
++src/services/boardParser.ts
++src/services/contentExtractor.ts
++src/services/answerFormatter.ts
++src/services/questionAnalyzer.ts
++src/services/answerResolver.ts
++src/services/pageFetcher.ts
++src/services/searchService.ts
++src/services/snapshotRepository.ts
++src/config/domains.ts
++src/config/sources.ts
++src/config/keywords.ts
++src/shared/api.ts
+diff --git a/verification/initial-attempts.txt b/verification/initial-attempts.txt
+new file mode 100644
+index 0000000..4211616
+--- /dev/null
++++ b/verification/initial-attempts.txt
+@@ -0,0 +1,10 @@
++Before dependency installation:
++npm test: sh: 1: vitest: not found
++npm run build: sh: 1: vite: not found
++Original archive: no .git. git status/rev-parse: fatal: not a git repository.
++Metadata injection built Worker check passed:
++appVersion=1.1.0
++releaseId=phase9-injection-fixture
++commitSha=0123456789abcdef0123456789abcdef01234567
++builtAt=2026-09-26T23:36:46.613Z (unchanged across requests)
++Final normal build restored local-development release/commit metadata.
+diff --git a/verification/worker-results.json b/verification/worker-results.json
+new file mode 100644
+index 0000000..a3842ff
+--- /dev/null
++++ b/verification/worker-results.json
+@@ -0,0 +1,60 @@
++[
++  {
++    "name": "/: status and security headers",
++    "status": "passed"
++  },
++  {
++    "name": "health metadata",
++    "status": "ok",
++    "service": "SCNU Campus Assistant API",
++    "appVersion": "1.1.0",
++    "releaseId": "local-development",
++    "commitSha": "local-development",
++    "builtAt": "2026-09-26T23:39:29.036Z",
++    "timestamp": "2026-09-26T23:40:06.761Z"
++  },
++  {
++    "name": "/api/health: status and security headers",
++    "status": "passed"
++  },
++  {
++    "name": "502 -> verified snapshot",
++    "status": "passed"
++  },
++  {
++    "name": "excluded topic safe fallback: 이번 학기 중간고사 말고 기말고사",
++    "status": "passed"
++  },
++  {
++    "name": "excluded topic safe fallback: 국가장학금 말고 외부장학금",
++    "status": "passed"
++  },
++  {
++    "name": "excluded topic safe fallback: 학생증 재발급이 아니라 처음 발급",
++    "status": "passed"
++  },
++  {
++    "name": "successful mixed source: 이번 학기 중간고사 말고 기말고사",
++    "status": "passed"
++  },
++  {
++    "name": "successful mixed source: 국가장학금 말고 외부장학금",
++    "status": "passed"
++  },
++  {
++    "name": "successful mixed source: 학생증 재발급이 아니라 처음 발급",
++    "status": "passed"
++  },
++  {
++    "name": "future semester rejects old snapshot: 중간고사 언제야?",
++    "status": "passed"
++  },
++  {
++    "name": "future semester rejects old snapshot: 국가장학금 신청 기간 알려줘",
++    "status": "passed"
++  },
++  {
++    "name": "future semester rejects old snapshot: 2027학년도 1학기 중간고사 언제야?",
++    "status": "passed"
++  }
++]
+\ No newline at end of file
+diff --git a/vite.config.ts b/vite.config.ts
+index f92b616..07b51bc 100644
+--- a/vite.config.ts
++++ b/vite.config.ts
+@@ -1,3 +1,4 @@
++import { readFileSync } from 'node:fs'
+ import build from '@hono/vite-build/cloudflare-pages'
+ import devServer from '@hono/vite-dev-server'
+ import adapter from '@hono/vite-dev-server/cloudflare'
+@@ -5,7 +6,7 @@ import react from '@vitejs/plugin-react'
+ import tailwindcss from '@tailwindcss/vite'
+ import { defineConfig } from 'vite'
+ 
+-export default defineConfig(({ mode }) => {
++export default defineConfig(({ mode, command }) => {
+   if (mode === 'client') {
+     return {
+       plugins: [react(), tailwindcss()],
+@@ -23,7 +24,16 @@ export default defineConfig(({ mode }) => {
+     }
+   }
+ 
++  const packageJson = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
++  const commitSha = process.env.CF_PAGES_COMMIT_SHA?.trim() || 'local-development'
++  const metadata = {
++    appVersion: packageJson.version,
++    releaseId: process.env.RELEASE_ID?.trim() || commitSha,
++    commitSha,
++    builtAt: command === 'build' ? new Date().toISOString() : 'local-development',
++  }
+   return {
++    define: { __APP_BUILD_METADATA__: JSON.stringify(metadata) },
+     plugins: [
+       build(),
+       devServer({
+diff --git a/vitest.config.ts b/vitest.config.ts
+new file mode 100644
+index 0000000..30fcd7e
+--- /dev/null
++++ b/vitest.config.ts
+@@ -0,0 +1,10 @@
++import { defineConfig } from 'vitest/config'
++
++export default defineConfig({
++  test: {
++    include: process.env.RUN_LIVE_TESTS === '1'
++      ? ['tests/live/**/*.test.ts']
++      : ['tests/**/*.test.ts'],
++    exclude: ['node_modules/**', 'dist/**', ...(process.env.RUN_LIVE_TESTS === '1' ? [] : ['tests/live/**'])],
++  },
++})
